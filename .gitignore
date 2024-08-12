@@ -1,0 +1,14 @@
+# Dev
+local/
+
+# IntelliJ IDEA
+.idea/
+out/
+*.iml
+
+# Maven
+*/target/
+
+# macOS
+._.git
+.DS_Store

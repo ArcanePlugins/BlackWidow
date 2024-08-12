@@ -1,0 +1,76 @@
+/*
+ * BlackWidow: Security modifications for Minecraft servers and proxies
+ * Copyright (c) 2024  lokka30.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package io.github.arcaneplugins.blackwidow.plugin.bukkit.event;
+
+import io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow;
+import io.github.arcaneplugins.blackwidow.plugin.bukkit.logic.Action;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+
+//TODO Javadoc
+public final class LoadActionsReadyEvent extends Event {
+
+    private final BlackWidow plugin;
+    private final Map<String, Function<CommentedConfigurationNode, Action>> actParsers;
+    private static final HandlerList HANDLERS = new HandlerList();
+
+    //TODO Javadoc
+    public LoadActionsReadyEvent(
+        final BlackWidow plugin,
+        final Map<String, Function<CommentedConfigurationNode, Action>> actParsers
+    ) {
+        this.plugin = Objects.requireNonNull(plugin, "plugin");
+        this.actParsers = Objects.requireNonNull(actParsers, "actParsers");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public @NotNull HandlerList getHandlers() {
+        return HANDLERS;
+    }
+
+    /**
+     * See {@link #getHandlers()}.
+     *
+     * @return Handler list.
+     */
+    @SuppressWarnings("unused")
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
+    //TODO Javadoc
+    public BlackWidow plugin() {
+        return Objects.requireNonNull(plugin, "plugin");
+    }
+
+    //TODO Javadoc
+    public Map<String, Function<CommentedConfigurationNode, Action>> actionParsers() {
+        return Objects.requireNonNull(actParsers, "actParsers");
+    }
+
+}
