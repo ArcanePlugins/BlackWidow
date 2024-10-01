@@ -82,7 +82,7 @@ public final class CmdBlocker {
 
             // chains
             parseChains();
-        } catch (final SerializationException ex) {
+        } catch (final Exception ex) {
             throw new RuntimeException("Unable to load CmdBlocker", ex);
         }
     }

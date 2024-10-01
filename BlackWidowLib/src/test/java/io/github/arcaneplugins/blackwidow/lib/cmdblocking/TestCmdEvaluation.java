@@ -129,6 +129,28 @@ public final class TestCmdEvaluation {
     }
 
     /**
+     * Ensures all chains rules start with a slash if it is not a regex chain.
+     *
+     * @author lokka30
+     * @since 1.0.0
+     */
+    @Test
+    public void testChainsMustStartWithSlash() {
+        for (final Chain chain : TEST_CHAINS) {
+            if(chain.isRegex()) {
+                continue;
+            }
+
+            for(final String rule : chain.rules()) {
+                Assertions.assertTrue(
+                    rule.startsWith("/"),
+                    "Non-regex chain rules must start with a slash, failed on rule='" + rule + "'"
+                );
+            }
+        }
+    }
+
+    /**
      * Example to ensure all commands expected to be denied are.. denied.
      *
      * @author lokka30

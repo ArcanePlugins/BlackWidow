@@ -80,8 +80,19 @@ public class Chain {
         this.rulesAsArgs = new HashMap<>(rules.size());
         this.causeFilters = causeFilters;
 
-        if (id.isEmpty()) {
+        if (id().isEmpty()) {
             throw new IllegalArgumentException("id can't be empty");
+        }
+
+        if (!isRegex()) {
+            for (final String rule : rules()) {
+                if(rule.startsWith("/")) {
+                    continue;
+                }
+
+                throw new IllegalArgumentException("Rule string='" + rule + "' in chain id='" + id() + "' does" +
+                    "not start with a slash (/); for a non-regex chain, all rules must start with a slash");
+            }
         }
 
         updatePrecompiledMaps();
