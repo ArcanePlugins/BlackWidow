@@ -27,7 +27,6 @@ import io.github.arcaneplugins.blackwidow.plugin.bukkit.logic.Action;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.logic.Context;
 import org.bukkit.entity.Player;
 import org.spongepowered.configurate.CommentedConfigurationNode;
-import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;

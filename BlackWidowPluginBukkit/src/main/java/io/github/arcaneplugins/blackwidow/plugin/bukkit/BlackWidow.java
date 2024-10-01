@@ -27,6 +27,7 @@ import io.github.arcaneplugins.blackwidow.plugin.bukkit.listener.ListenerManager
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.logic.LogicManager;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.ClassUtil;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.DebugCategory;
+import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.ExceptionUtil;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -67,7 +68,12 @@ public final class BlackWidow extends JavaPlugin {
     public void onLoad() {
         final long startTime = System.currentTimeMillis();
 
-        commandManager().init();
+        try {
+            commandManager().init();
+        } catch (Exception ex) {
+            ExceptionUtil.logException(this, ex, "An error occurred whilst initializing BlackWidow (Bukkit-onLoad).");
+            return;
+        }
 
         final long duration = System.currentTimeMillis() - startTime;
         getLogger().info("Plugin initialised (took %.3fs).".formatted(duration / 1_000f));
@@ -83,13 +89,18 @@ public final class BlackWidow extends JavaPlugin {
     public void onEnable() {
         final long startTime = System.currentTimeMillis();
 
-        loadCompat();
-        this.adventure = BukkitAudiences.create(this);
-        loadConfigs();
-        logicManager().load();
-        loadComponents();
-        listenerManager().load();
-        commandManager().load();
+        try {
+            loadCompat();
+            this.adventure = BukkitAudiences.create(this);
+            loadConfigs();
+            logicManager().load();
+            loadComponents();
+            listenerManager().load();
+            commandManager().load();
+        } catch (Exception ex) {
+            ExceptionUtil.logException(this, ex, "An error occurred whilst enabling BlackWidow.");
+            return;
+        }
 
         final long duration = System.currentTimeMillis() - startTime;
         getLogger().info("Plugin enabled (took %.3fs).".formatted(duration / 1_000f));
@@ -105,11 +116,16 @@ public final class BlackWidow extends JavaPlugin {
     public void onDisable() {
         final long startTime = System.currentTimeMillis();
 
-        commandManager().disable();
+        try {
+            commandManager().disable();
 
-        if (adventure != null) {
-            adventure.close();
-            adventure = null;
+            if (adventure != null) {
+                adventure.close();
+                adventure = null;
+            }
+        } catch (Exception ex) {
+            ExceptionUtil.logException(this, ex, "An error occurred whilst disabling BlackWidow.");
+            return;
         }
 
         final long duration = System.currentTimeMillis() - startTime;
@@ -130,10 +146,15 @@ public final class BlackWidow extends JavaPlugin {
         getLogger().info("Performing soft-reload.");
         final long startTime = System.currentTimeMillis();
 
-        loadCompat();
-        loadConfigs();
-        logicManager().load();
-        loadComponents();
+        try {
+            loadCompat();
+            loadConfigs();
+            logicManager().load();
+            loadComponents();
+        } catch (Exception ex) {
+            ExceptionUtil.logException(this, ex, "An error occurred whilst performing a soft-reload.");
+            return;
+        }
 
         final long duration = System.currentTimeMillis() - startTime;
         getLogger().info("Soft-reloaded (took %.3fs).".formatted(duration / 1_000f));
