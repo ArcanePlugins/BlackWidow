@@ -60,8 +60,7 @@
 
     <distributionManagement>
         <repository>
-            <id>GitHub</id>
-            <name>ArcanePlugins</name>
+            <id>github</id>
             <url>https://maven.pkg.github.com/ArcanePlugins/BlackWidow</url>
         </repository>
     </distributionManagement>
