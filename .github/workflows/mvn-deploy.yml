@@ -36,13 +36,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload JARs to Release
-        run: |
-          # Find all .jar files in the target directory and upload them, excluding those with 'original' in the name
-          for JAR_FILE in $(find . -name "*.jar" | grep -v original); do
-            echo "Uploading $JAR_FILE"
-            curl -XPOST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Content-Type: application/octet-stream" \
-              --data-binary @$JAR_FILE \
-              ${{ github.event.release.upload_url }}?name=$(basename $JAR_FILE)
-          done
+      - uses: AButler/upload-release-assets@v3.0
+        with:
+          files: "blackwidowpluginbukkit/target/b-*.jar;blackwidowlib/target/b-*.jar"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
