@@ -23,11 +23,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.arcaneplugins.blackwidow</groupId>
-        <artifactId>BlackWidow</artifactId>
+        <artifactId>blackwidow</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>BlackWidowPluginBukkit</artifactId>
+    <artifactId>blackwidowpluginbukkit</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
@@ -46,7 +46,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.arcaneplugins.blackwidow</groupId>
-            <artifactId>BlackWidowLib</artifactId>
+            <artifactId>blackwidowlib</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
