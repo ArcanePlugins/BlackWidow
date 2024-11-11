@@ -38,5 +38,5 @@ jobs:
 
       - uses: AButler/upload-release-assets@v3.0
         with:
-          files: "blackwidowpluginbukkit/target/b-*.jar;blackwidowlib/target/b-*.jar"
+          files: "blackwidowpluginbukkit/target/blackwidow*.jar;blackwidowlib/target/blackwidow*.jar"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
