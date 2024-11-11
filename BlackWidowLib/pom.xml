@@ -24,7 +24,7 @@
     <parent>
         <groupId>io.github.arcaneplugins.blackwidow</groupId>
         <artifactId>BlackWidow</artifactId>
-        <version>1</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>BlackWidowLib</artifactId>

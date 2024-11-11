@@ -20,6 +20,7 @@ package io.github.arcaneplugins.blackwidow.plugin.bukkit.command;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
+import dev.jorel.commandapi.RegisteredCommand;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.command.blackwidow.BlackWidowCommand;
 
@@ -64,6 +65,11 @@ public final class CommandManager {
         plugin().getLogger().info("Disabling commands.");
         CommandAPI.unregister("blackwidow", true);
         CommandAPI.onDisable();
+        CommandAPI.getRegisteredCommands()
+            .stream()
+            .map(RegisteredCommand::commandName)
+            .iterator()
+            .forEachRemaining(CommandAPI::unregister);
     }
 
     //TODO Javadoc
