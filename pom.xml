@@ -52,4 +52,18 @@
         </plugins>
     </build>
 
+    <licenses>
+        <license>
+            <name>GNU General Public License v3.0</name>
+        </license>
+    </licenses>
+
+    <distributionManagement>
+        <repository>
+            <id>GitHub</id>
+            <name>ArcanePlugins</name>
+            <url>https://maven.pkg.github.com/ArcanePlugins/BlackWidow</url>
+        </repository>
+    </distributionManagement>
+
 </project>

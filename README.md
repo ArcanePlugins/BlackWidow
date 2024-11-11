@@ -45,3 +45,9 @@ Please be advised:
 > Please note that we are not interested in backporting BlackWidow to older versions of Minecraft/Java/etc. Please update your software, or feel free to fork BlackWidow and backport it.
 
 > We highly recommend **against** using any server software like Magma, Mohist, and Arclight which are basically try to make Forge mods work with Bukkit plugins. Bukkit was *never* designed to work with Forge/Fabric/etc mods. Trying to mix the two often causes lots of unusual issues which burden server owners and plugin maintainers. Thus, we don't provide any support whatsoever for software of this kind.
+
+## License Notice
+
+Copyright (c) 2024 lokka30 (<lachy@lachy.space>)
+
+Please see [LICENSE](LICENSE.md).
