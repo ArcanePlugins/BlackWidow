@@ -27,21 +27,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-//TODO Javadoc
 @SuppressWarnings("UnstableApiUsage") // <-- :(
 public final class AsyncPlayerCommandSendListener implements Listener {
 
-    //TODO Javadoc
     private final BlackWidow plugin;
 
-    //TODO Javadoc
     public AsyncPlayerCommandSendListener(
         final BlackWidow plugin
     ) {
         this.plugin = plugin;
     }
 
-    //TODO Javadoc
     @EventHandler
     public void handle(
         final AsyncPlayerSendCommandsEvent<? extends CommandSourceStack> event
@@ -59,7 +55,7 @@ public final class AsyncPlayerCommandSendListener implements Listener {
         final Player player = event.getPlayer();
         final RootCommandNode<? extends CommandSourceStack> commandNode = event.getCommandNode();
 
-        //TODO Implement
+        //TODO Implement for Paper
 
         plugin().debugLog(
             DebugCategory.ASYNC_PLAYER_COMMAND_SEND_LISTENER,
@@ -68,8 +64,8 @@ public final class AsyncPlayerCommandSendListener implements Listener {
         );
     }
 
-    //TODO Javadoc
     private BlackWidow plugin() {
         return plugin;
     }
+
 }

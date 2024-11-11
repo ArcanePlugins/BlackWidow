@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-//TODO Javadocs
 public enum Translation {
 
     COMMAND_BLACKWIDOW_RELOAD_STARTED(
@@ -76,7 +75,6 @@ public enum Translation {
     private final boolean isList;
     private final Object defValue;
 
-    //TODO Javadocs
     Translation(
         final String[] nodePath,
         final boolean isList,
@@ -87,22 +85,18 @@ public enum Translation {
         this.defValue = defValue;
     }
 
-    //TODO Javadocs
     public final String[] nodePath() {
         return nodePath;
     }
 
-    //TODO Javadocs
     public final boolean isList() {
         return isList;
     }
 
-    //TODO Javadocs
     public final Object defValue() {
         return defValue;
     }
 
-    //TODO Javadocs
     public String strSingle(
         final BlackWidow plugin
     ) {
@@ -113,7 +107,6 @@ public enum Translation {
         return plugin.translations().root().node((Object[]) nodePath()).getString((String) defValue());
     }
 
-    //TODO Javadocs
     public static String placeholerify(
         final BlackWidow plugin,
         final String msg,
@@ -140,7 +133,6 @@ public enum Translation {
         return formattedMsg;
     }
 
-    //TODO Javadocs
     public static String joinSeparatedStrings(
         final BlackWidow plugin,
         final Collection<String> strings
@@ -151,7 +143,6 @@ public enum Translation {
         );
     }
 
-    //TODO Javadocs
     public static Component formatify(
         final BlackWidow plugin,
         final String msg,
@@ -166,7 +157,6 @@ public enum Translation {
         );
     }
 
-    //TODO Javadocs
     public final List<String> strList(
         final BlackWidow plugin
     ) {
@@ -185,7 +175,6 @@ public enum Translation {
         }
     }
 
-    //TODO Javadocs
     public final void sendTo(
         final BlackWidow plugin,
         final Audience audience,
@@ -203,7 +192,6 @@ public enum Translation {
         }
     }
 
-    //TODO Javadocs
     public final void sendTo(
         final BlackWidow plugin,
         final CommandSender sender,
@@ -211,12 +199,9 @@ public enum Translation {
     ) {
         Objects.requireNonNull(plugin, "plugin");
         Objects.requireNonNull(sender, "sender");
-
-        //noinspection resource
         sendTo(plugin, plugin.adventure().sender(sender), placeholders);
     }
 
-    //TODO Javadocs
     @SuppressWarnings("unused")
     public final void sendTo(
         final BlackWidow plugin,
@@ -226,8 +211,6 @@ public enum Translation {
         Objects.requireNonNull(plugin, "plugin");
         Objects.requireNonNull(player, "player");
         Objects.requireNonNull(placeholders, "placeholders");
-
-        //noinspection resource
         sendTo(plugin, plugin.adventure().player(player), placeholders);
     }
 

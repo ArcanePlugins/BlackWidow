@@ -52,7 +52,6 @@ public final class VersionSubcommand extends CommandAPICommand {
         });
     }
 
-    //TODO Javadocs
     private BlackWidow plugin() {
         return Objects.requireNonNull(plugin, "plugin");
     }

@@ -32,12 +32,10 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 
-//TODO Javadoc
 public final class CmdBlocker {
 
     private final BlackWidow plugin;
 
-    //TODO Javadoc
     public CmdBlocker(final BlackWidow plugin) {
         this.plugin = plugin;
     }
@@ -51,7 +49,6 @@ public final class CmdBlocker {
     private final Collection<Action> denyColonInFirstArgActions = new LinkedHashSet<>();
     private final Collection<BukkitChain> chains = new LinkedHashSet<>();
 
-    //TODO Javadoc
     public void load() {
         final CommentedConfigurationNode settingsRoot = plugin().settings().root();
 
@@ -86,7 +83,6 @@ public final class CmdBlocker {
         }
     }
 
-    //TODO Javadoc
     private void parseChains() {
         final CommentedConfigurationNode chainsRoot = plugin().settings().root().node("cmd-blocking", "chains");
 
@@ -97,7 +93,6 @@ public final class CmdBlocker {
         }
     }
 
-    //TODO Javadoc
     public Evaluation evalAndProcess(final Context context, final String cmd, final boolean runActions, final EvalCause cause) {
         final Player player = context.player(false);
         if (player != null && player.isOp() && operatorsBypassCompletely()) {
@@ -126,72 +121,58 @@ public final class CmdBlocker {
         return eval;
     }
 
-    //TODO Javadoc
     private BlackWidow plugin() {
         return plugin;
     }
 
-    //TODO Javadoc
     public void setDefaultBehaviourPolicy(Policy defaultBehaviourPolicy) {
         this.defaultBehaviourPolicy = defaultBehaviourPolicy;
     }
 
-    //TODO Javadoc
     public Policy defaultBehaviourPolicy() {
         return defaultBehaviourPolicy;
     }
 
-    //TODO Javadoc
     public Collection<Action> defaultBehaviourActions() {
         return Objects.requireNonNull(defaultBehaviourActions, "defaultBehaviourActions");
     }
 
-    //TODO Javadoc
     public boolean filterCmdExecution() {
         return filterCmdExecution;
     }
 
-    //TODO Javadoc
     public void setFilterCmdExecution(boolean filterCmdExecution) {
         this.filterCmdExecution = filterCmdExecution;
     }
 
-    //TODO Javadoc
     public boolean filterCmdSuggestion() {
         return filterCmdSuggestion;
     }
 
-    //TODO Javadoc
     public void setFilterCmdSuggestion(boolean filterCmdSuggestion) {
         this.filterCmdSuggestion = filterCmdSuggestion;
     }
 
-    //TODO Javadoc
     public boolean operatorsBypassCompletely() {
         return operatorsBypassCompletely;
     }
 
-    //TODO Javadoc
     public void setOperatorsBypassCompletely(boolean operatorsBypassCompletely) {
         this.operatorsBypassCompletely = operatorsBypassCompletely;
     }
 
-    //TODO Javadoc
     public boolean denyColonInFirstArgEnabled() {
         return denyColonInFirstArgEnabled;
     }
 
-    //TODO Javadoc
     public void setDenyColonInFirstArgEnabled(boolean denyColonInFirstArgEnabled) {
         this.denyColonInFirstArgEnabled = denyColonInFirstArgEnabled;
     }
 
-    //TODO Javadoc
     public Collection<Action> denyColonInFirstArgActions() {
         return Objects.requireNonNull(denyColonInFirstArgActions, "denyColonInFirstArgActions");
     }
 
-    //TODO Javadoc
     public Collection<BukkitChain> chains() {
         return Objects.requireNonNull(chains, "chains");
     }

@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
-//TODO Javadoc
 public final class LogicManager {
 
     private final Map<String, Function<CommentedConfigurationNode, Action>> actParsers = new HashMap<>();
@@ -41,14 +40,12 @@ public final class LogicManager {
 
     private final BlackWidow plugin;
 
-    //TODO Javadoc
     public LogicManager(
         final BlackWidow plugin
     ) {
         this.plugin = plugin;
     }
 
-    //TODO Javadoc
     public void load() {
         plugin().getLogger().info("Loading logic.");
         loadStdRequirements();
@@ -57,13 +54,11 @@ public final class LogicManager {
         loadThirdPartyActions();
     }
 
-    //TODO Javadoc
     private void loadStdRequirements() {
         requirementParsers().put(HasPermissionRequirement.ID, (n) -> new HasPermissionRequirement(plugin(), n));
         requirementParsers().put(InWorldRequirement.ID, (n) -> new InWorldRequirement(plugin(), n));
     }
 
-    //TODO Javadoc
     private void loadThirdPartyRequirements() {
         final LoadRequirementsReadyEvent event = new LoadRequirementsReadyEvent(
             plugin(),
@@ -72,12 +67,10 @@ public final class LogicManager {
         plugin().getServer().getPluginManager().callEvent(event);
     }
 
-    //TODO Javadoc
     private void loadStdActions() {
         actionParsers().put(SendMessageAction.ID, (n) -> new SendMessageAction(plugin(), n));
     }
 
-    //TODO Javadoc
     private void loadThirdPartyActions() {
         final LoadActionsReadyEvent event = new LoadActionsReadyEvent(
             plugin(),
@@ -86,7 +79,6 @@ public final class LogicManager {
         plugin().getServer().getPluginManager().callEvent(event);
     }
 
-    //TODO Javadoc
     public Action parseActionAtNode(
         final CommentedConfigurationNode node
     ) {
@@ -110,7 +102,6 @@ public final class LogicManager {
         }
     }
 
-    //TODO Javadoc
     public Collection<Action> parseActionsInChildrenOfNode(
         final CommentedConfigurationNode nodes
     ) {
@@ -121,7 +112,6 @@ public final class LogicManager {
         return actions;
     }
 
-    //TODO Javadoc
     public Requirement parseRequirementAtNode(
         final CommentedConfigurationNode node
     ) {
@@ -145,7 +135,6 @@ public final class LogicManager {
         }
     }
 
-    //TODO Javadoc
     public Collection<Requirement> parseRequirementsInChildrenOfNode(
         final CommentedConfigurationNode nodes
     ) {
@@ -156,17 +145,14 @@ public final class LogicManager {
         return requirements;
     }
 
-    //TODO Javadoc
     private BlackWidow plugin() {
         return Objects.requireNonNull(plugin, "plugin");
     }
 
-    //TODO Javadoc
     public Map<String, Function<CommentedConfigurationNode, Action>> actionParsers() {
         return actParsers;
     }
 
-    //TODO Javadoc
     public Map<String, Function<CommentedConfigurationNode, Requirement>> requirementParsers() {
         return reqParsers;
     }

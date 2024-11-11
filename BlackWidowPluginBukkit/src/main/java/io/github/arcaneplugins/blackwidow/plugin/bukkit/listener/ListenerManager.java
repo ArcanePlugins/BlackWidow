@@ -27,20 +27,17 @@ import org.bukkit.event.Listener;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
-//TODO Javadoc
 public final class ListenerManager {
 
     private final BlackWidow plugin;
     private final Collection<Listener> listeners = new LinkedHashSet<>();
 
-    //TODO Javadoc
     public ListenerManager(
         final BlackWidow plugin
     ) {
         this.plugin = plugin;
     }
 
-    //TODO Javadoc
     private void constructListeners() {
         listeners().add(
             new PlayerCommandPreprocessListener(plugin())
@@ -53,7 +50,6 @@ public final class ListenerManager {
         );
     }
 
-    //TODO Javadoc
     public void load() {
         plugin().getLogger().info("Loading listeners.");
         listeners().clear();
@@ -64,12 +60,10 @@ public final class ListenerManager {
         }
     }
 
-    //TODO Javadoc
     public Collection<Listener> listeners() {
         return listeners;
     }
 
-    //TODO Javadoc
     private BlackWidow plugin() {
         return plugin;
     }

@@ -25,14 +25,12 @@ import org.spongepowered.configurate.CommentedConfigurationNode;
 
 import java.util.Objects;
 
-//TODO Javadoc
 public final class InWorldRequirement extends Requirement {
 
     public static final String ID = "in-world";
 
     private final String worldName;
 
-    //TODO Javadoc
     public InWorldRequirement(
         final BlackWidow plugin,
         final String worldName,
@@ -42,7 +40,6 @@ public final class InWorldRequirement extends Requirement {
         this.worldName = Objects.requireNonNull(worldName, "worldName");
     }
 
-    //TODO Javadoc
     public InWorldRequirement(
         final BlackWidow plugin,
         final CommentedConfigurationNode node
@@ -65,7 +62,6 @@ public final class InWorldRequirement extends Requirement {
         return context.player(true).getWorld().getName().equalsIgnoreCase(worldName());
     }
 
-    //todo javadoc
     public String worldName() {
         return Objects.requireNonNull(worldName, "worldName");
     }

@@ -25,12 +25,10 @@ import io.github.arcaneplugins.blackwidow.plugin.bukkit.command.blackwidow.subco
 
 import java.util.Objects;
 
-//TODO Javadocs
 public final class BlackWidowCommand extends CommandAPICommand {
 
     private final BlackWidow plugin;
 
-    //TODO Javadocs
     public BlackWidowCommand(
         final BlackWidow plugin
     ) {
@@ -46,7 +44,6 @@ public final class BlackWidowCommand extends CommandAPICommand {
         );
     }
 
-    //TODO Javadocs
     private BlackWidow plugin() {
         return Objects.requireNonNull(plugin, "plugin");
     }

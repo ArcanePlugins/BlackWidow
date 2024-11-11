@@ -18,6 +18,5 @@
 
 package io.github.arcaneplugins.blackwidow.plugin.bukkit.logic;
 
-//TODO Javadoc
 public interface LogicUnit {
 }

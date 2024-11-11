@@ -30,19 +30,16 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import java.util.List;
 
-//TODO Javadoc
 public final class PlayerCommandPreprocessListener implements Listener {
 
     private final BlackWidow plugin;
 
-    //TODO Javadoc
     public PlayerCommandPreprocessListener(
         final BlackWidow plugin
     ) {
         this.plugin = plugin;
     }
 
-    //TODO Javadoc
     @EventHandler(priority = EventPriority.LOWEST)
     public void handle(final PlayerCommandPreprocessEvent event) {
         if (event.isCancelled()) {
@@ -79,7 +76,6 @@ public final class PlayerCommandPreprocessListener implements Listener {
         }
     }
 
-    //TODO Javadoc
     private BlackWidow plugin() {
         return plugin;
     }

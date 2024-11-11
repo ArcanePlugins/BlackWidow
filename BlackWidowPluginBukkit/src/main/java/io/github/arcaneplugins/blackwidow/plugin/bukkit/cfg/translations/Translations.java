@@ -21,7 +21,6 @@ package io.github.arcaneplugins.blackwidow.plugin.bukkit.cfg.translations;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.cfg.YamlCfg;
 
-//TODO JAVADOCS
 public final class Translations extends YamlCfg {
 
     // <<< !!! WARNING !!! NOTICE THIS MESSAGE !!! >>>

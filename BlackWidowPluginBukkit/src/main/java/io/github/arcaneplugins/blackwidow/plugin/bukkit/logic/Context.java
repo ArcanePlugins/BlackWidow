@@ -25,7 +25,6 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 import java.util.Objects;
 
-//TODO Javadoc
 public final class Context {
 
     private final BlackWidow plugin;
@@ -34,61 +33,49 @@ public final class Context {
     private Collection<String> commands;
     private CommandSender sender;
 
-    //TODO Javadoc
     public Context(
         final BlackWidow plugin
     ) {
         this.plugin = Objects.requireNonNull(plugin, "plugin");
     }
 
-    //TODO javadoc
     public BlackWidow plugin() {
         return Objects.requireNonNull(plugin, "plugin");
     }
 
-    // TODO Javadoc
     public Context withPlayer(final Player player) {
         this.player = player;
         return this;
     }
 
-    // TODO Javadoc
     public Player player(final boolean require) {
         return require ? ContextException.require(player) : player;
     }
 
-    // TODO Javadoc
     public Context withCommands(final Collection<String> commands) {
         this.commands = commands;
         return this;
     }
 
-    // TODO Javadoc
     @SuppressWarnings("unused")
     public Collection<String> commands(final boolean require) {
         return require ? ContextException.require(commands) : commands;
     }
 
-    // TODO Javadoc
     @SuppressWarnings("unused")
     public Context withCommandSender(final CommandSender sender) {
         this.sender = sender;
         return this;
     }
 
-    // TODO Javadoc
     public CommandSender commandSender(final boolean require) {
         return require ? ContextException.require(sender) : sender;
     }
 
-
-
-    // TODO Javadoc
     private static final class ContextException extends RuntimeException {
 
         private final String message;
 
-        // TODO Javadoc
         public ContextException(
             final String message
         ) {
@@ -106,7 +93,6 @@ public final class Context {
             return message;
         }
 
-        // TODO Javadoc
         public static <T> T require(final T obj) {
             if (obj != null) {
                 return obj;

@@ -28,19 +28,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandSendEvent;
 
-//TODO Javadoc
 public final class PlayerCommandSendListener implements Listener {
 
     private final BlackWidow plugin;
 
-    //TODO Javadoc
     public PlayerCommandSendListener(
         final BlackWidow plugin
     ) {
         this.plugin = plugin;
     }
 
-    //TODO Javadoc
     @EventHandler
     public void handle(final PlayerCommandSendEvent event) {
         if (event.getCommands().isEmpty()) {
@@ -73,7 +70,6 @@ public final class PlayerCommandSendListener implements Listener {
         }
     }
 
-    //TODO Javadoc
     private BlackWidow plugin() {
         return plugin;
     }

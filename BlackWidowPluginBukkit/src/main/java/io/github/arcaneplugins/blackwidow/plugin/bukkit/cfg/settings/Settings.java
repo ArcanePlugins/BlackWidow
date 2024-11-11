@@ -26,7 +26,6 @@ import org.spongepowered.configurate.ConfigurateException;
 import java.util.Collections;
 import java.util.Objects;
 
-//TODO Javadoc
 public final class Settings extends YamlCfg {
 
     // <<< !!! WARNING !!! NOTICE THIS MESSAGE !!! >>>
@@ -35,7 +34,6 @@ public final class Settings extends YamlCfg {
     // <<< !!! WARNING !!! NOTICE THIS MESSAGE !!! >>>
     private static final int LATEST_FILE_VERSION = 1;
 
-    //TODO Javadoc
     public Settings(
         final BlackWidow plugin
     ) {

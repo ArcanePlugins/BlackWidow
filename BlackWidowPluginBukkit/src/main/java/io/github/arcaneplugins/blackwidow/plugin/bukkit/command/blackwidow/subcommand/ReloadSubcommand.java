@@ -50,7 +50,6 @@ public final class ReloadSubcommand extends CommandAPICommand {
         });
     }
 
-    //TODO Javadocs
     private BlackWidow plugin() {
         return Objects.requireNonNull(plugin, "plugin");
     }

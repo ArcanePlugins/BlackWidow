@@ -24,20 +24,16 @@ import dev.jorel.commandapi.RegisteredCommand;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.command.blackwidow.BlackWidowCommand;
 
-//TODO Javadoc
 public final class CommandManager {
 
-    //TODO Javadoc
     private final BlackWidow plugin;
 
-    //TODO Javadoc
     public CommandManager(
         final BlackWidow plugin
     ) {
         this.plugin = plugin;
     }
 
-    //TODO Javadoc
     public void init() {
         plugin().getLogger().info("Initialising commands.");
         CommandAPI.onLoad(
@@ -49,18 +45,15 @@ public final class CommandManager {
         registerCommands();
     }
 
-    //TODO
     private void registerCommands() {
         new BlackWidowCommand(plugin()).register();
     }
 
-    //TODO
     public void load() {
         plugin().getLogger().info("Loading commands.");
         CommandAPI.onEnable();
     }
 
-    //TODO Javadoc
     public void disable() {
         plugin().getLogger().info("Disabling commands.");
         CommandAPI.unregister("blackwidow", true);
@@ -72,7 +65,6 @@ public final class CommandManager {
             .forEachRemaining(CommandAPI::unregister);
     }
 
-    //TODO Javadoc
     private BlackWidow plugin() {
         return plugin;
     }

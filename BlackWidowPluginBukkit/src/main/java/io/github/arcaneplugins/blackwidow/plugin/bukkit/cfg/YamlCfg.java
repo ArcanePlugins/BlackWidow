@@ -28,7 +28,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 
-//TODO Javadoc
 public abstract class YamlCfg {
 
     private final BlackWidow plugin;
@@ -40,7 +39,6 @@ public abstract class YamlCfg {
     private final int latestFileVersion;
     private CommentedConfigurationNode root;
 
-    //TODO Javadoc
     public YamlCfg(
         final BlackWidow plugin,
         final String filePathStr,
@@ -75,7 +73,6 @@ public abstract class YamlCfg {
             .build();
     }
 
-    //TODO Javadoc
     public final void load() {
         try {
             copyFromResourcesIfDoesntExist();
@@ -126,10 +123,8 @@ public abstract class YamlCfg {
         }
     }
 
-    //TODO Javadoc
     protected abstract void loadMore();
 
-    //TODO Javadoc
     public final void write() {
         try {
             yamlLoader().save(root());
@@ -138,7 +133,6 @@ public abstract class YamlCfg {
         }
     }
 
-    //TODO Javadoc
     public final void copyFromResourcesIfDoesntExist() {
         if (Files.exists(filePath())) {
             return;
@@ -147,52 +141,42 @@ public abstract class YamlCfg {
         plugin().saveResource(filePathStr(), false);
     }
 
-    //TODO Javadoc
     protected final BlackWidow plugin() {
         return Objects.requireNonNull(plugin, "plugin");
     }
 
-    //TODO Javadoc
     public final String fileName() {
         return Objects.requireNonNull(fileName, "fileName");
     }
 
-    //TODO Javadoc
     public final String description() {
         return Objects.requireNonNull(description, "description");
     }
 
-    //TODO Javadoc
     public final Path filePath() {
         return Objects.requireNonNull(filePath, "filePath");
     }
 
-    //TODO Javadoc
     public final YamlConfigurationLoader yamlLoader() {
         return Objects.requireNonNull(loader, "loader");
     }
 
-    //TODO Javadoc
     public final CommentedConfigurationNode root() {
         return root;
     }
 
-    //TODO Javadoc
     protected final void setRoot(CommentedConfigurationNode root) {
         this.root = root;
     }
 
-    //TODO Javadoc
     public final String filePathStr() {
         return filePathStr;
     }
 
-    //TODO Javadoc
     public final int latestFileVersion() {
         return this.latestFileVersion;
     }
 
-    //TODO Javadoc
     public final int installedFileVersion() {
         final int installedVer = root().node("do-not-touch", "version", "installed").getInt(Integer.MIN_VALUE);
         if (installedVer == Integer.MIN_VALUE) {
@@ -201,7 +185,6 @@ public abstract class YamlCfg {
         return installedVer;
     }
 
-    //TODO Javadoc
     //Note that no need to call 'write()' as this is done automatically after each upgrade by the loader
     public abstract void upgradeFile();
 

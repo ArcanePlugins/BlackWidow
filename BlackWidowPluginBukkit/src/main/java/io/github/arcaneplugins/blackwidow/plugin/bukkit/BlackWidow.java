@@ -133,8 +133,6 @@ public final class BlackWidow extends JavaPlugin {
         getLogger().info("Thank you for using BlackWidow");
     }
 
-    // TODO Use and ensure all soft-reloadable logic is reloaded.
-
     /**
      * Used to 'soft'-reload the plugin, i.e., reload configs and related configurable logic, without having to
      * restart the plugin or the server.
@@ -313,12 +311,10 @@ public final class BlackWidow extends JavaPlugin {
         return Objects.requireNonNull(translations, "translations");
     }
 
-    //TODO Javadoc
     public BukkitAudiences adventure() {
         return Objects.requireNonNull(adventure, "adventure");
     }
 
-    //TODO Javadoc
     public MiniMessage miniMessage() {
         return Objects.requireNonNull(miniMessage, "miniMessage");
     }

@@ -22,13 +22,11 @@ import io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow;
 
 import java.util.Objects;
 
-//TODO Javadoc
 public abstract class Action implements LogicUnit {
 
     private final BlackWidow plugin;
     private final String id;
 
-    //TODO Javadoc
     public Action(
         final BlackWidow plugin,
         final String id
@@ -37,15 +35,12 @@ public abstract class Action implements LogicUnit {
         this.id = Objects.requireNonNull(id, "id");
     }
 
-    //TODO Javadoc
     public abstract void run(final Context context);
 
-    //TODO Javadoc
     public final String id() {
         return Objects.requireNonNull(id, "id");
     }
 
-    //TODO javadoc
     protected final BlackWidow plugin() {
         return Objects.requireNonNull(plugin, "plugin");
     }

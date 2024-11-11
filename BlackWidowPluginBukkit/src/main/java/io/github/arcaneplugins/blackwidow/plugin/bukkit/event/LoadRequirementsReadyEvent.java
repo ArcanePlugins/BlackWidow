@@ -29,14 +29,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
-//TODO Javadoc
 public final class LoadRequirementsReadyEvent extends Event {
 
     private final BlackWidow plugin;
     private final Map<String, Function<CommentedConfigurationNode, Requirement>> reqParsers;
     private static final HandlerList HANDLERS = new HandlerList();
 
-    //TODO Javadoc
     public LoadRequirementsReadyEvent(
         final BlackWidow plugin,
         final Map<String, Function<CommentedConfigurationNode, Requirement>> reqParsers
@@ -63,12 +61,10 @@ public final class LoadRequirementsReadyEvent extends Event {
         return HANDLERS;
     }
 
-    //TODO Javadoc
     public BlackWidow plugin() {
         return Objects.requireNonNull(plugin, "plugin");
     }
 
-    //TODO Javadoc
     public Map<String, Function<CommentedConfigurationNode, Requirement>> requirementParsers() {
         return Objects.requireNonNull(reqParsers, "reqParsers");
     }

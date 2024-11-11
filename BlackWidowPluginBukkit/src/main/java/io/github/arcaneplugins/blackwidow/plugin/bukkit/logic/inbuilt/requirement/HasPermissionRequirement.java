@@ -25,14 +25,12 @@ import org.spongepowered.configurate.CommentedConfigurationNode;
 
 import java.util.Objects;
 
-//TODO Javadoc
 public final class HasPermissionRequirement extends Requirement {
 
     public static final String ID = "has-perission";
 
     private final String permission;
 
-    //TODO Javadoc
     public HasPermissionRequirement(
         final BlackWidow plugin,
         final String permission,
@@ -42,7 +40,6 @@ public final class HasPermissionRequirement extends Requirement {
         this.permission = Objects.requireNonNull(permission, "permission");
     }
 
-    //TODO Javadoc
     public HasPermissionRequirement(
         final BlackWidow plugin,
         final CommentedConfigurationNode node
@@ -68,7 +65,6 @@ public final class HasPermissionRequirement extends Requirement {
         ).hasPermission(permission());
     }
 
-    //todo javadoc
     public String permission() {
         return Objects.requireNonNull(permission, "permission");
     }

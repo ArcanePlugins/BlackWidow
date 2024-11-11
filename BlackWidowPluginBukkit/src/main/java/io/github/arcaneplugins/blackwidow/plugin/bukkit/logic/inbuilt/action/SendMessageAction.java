@@ -30,14 +30,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
-//TODO Javadoc
 public final class SendMessageAction extends Action {
 
     public static final String ID = "send-message";
 
     private final Collection<String> message;
 
-    //TODO Javadoc
     public SendMessageAction(
         final BlackWidow plugin,
         final Collection<String> message
@@ -46,7 +44,6 @@ public final class SendMessageAction extends Action {
         this.message = Objects.requireNonNull(message, "message");
     }
 
-    //TODO Javadoc
     public SendMessageAction(
         final BlackWidow plugin,
         final CommentedConfigurationNode node
@@ -66,7 +63,6 @@ public final class SendMessageAction extends Action {
         }
     }
 
-    //todo javadoc
     public Collection<String> message() {
         return Objects.requireNonNull(message, "message");
     }

@@ -32,7 +32,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 
-//TODO Javadoc
 public final class BukkitChain extends Chain {
 
     private final BlackWidow plugin;
@@ -69,7 +68,6 @@ public final class BukkitChain extends Chain {
         this.actions = Objects.requireNonNull(actions, "actions");
     }
 
-    //TODO Javadoc
     public BukkitChain(
         final BlackWidow plugin,
         final CommentedConfigurationNode node
@@ -87,13 +85,11 @@ public final class BukkitChain extends Chain {
         );
     }
 
-    //TODO Javadoc
     @SuppressWarnings("unused")
     private BlackWidow plugin() {
         return Objects.requireNonNull(plugin, "plugin");
     }
 
-    //TODO Javadoc
     private static Policy parsePolicyAtNode(
         final CommentedConfigurationNode node
     ) {
@@ -104,7 +100,6 @@ public final class BukkitChain extends Chain {
         }
     }
 
-    //TODO Javadoc
     private static List<String> parseStringListAtNode(
         final CommentedConfigurationNode node
     ) {
@@ -115,17 +110,14 @@ public final class BukkitChain extends Chain {
         }
     }
 
-    //TODO Javadoc
     public Collection<Requirement> requirements() {
         return requirements;
     }
 
-    //TODO Javadoc
     public Collection<Action> actions() {
         return actions;
     }
 
-    //TODO Javadoc
     public static Collection<EvalCause> parseEvalCauseListAtNode(
         final CommentedConfigurationNode node
     ) {

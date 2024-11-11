@@ -1,4 +1,4 @@
-api-version: "1.20" # TODO change to 1.21 once stable
+api-version: "1.21"
 authors: [ "lokka30" ]
 description: "Security solution for Minecraft servers and proxies"
 main: "io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow"

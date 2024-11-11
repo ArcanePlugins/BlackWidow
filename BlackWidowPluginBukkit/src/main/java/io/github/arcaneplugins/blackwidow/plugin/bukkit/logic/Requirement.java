@@ -22,14 +22,12 @@ import io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow;
 
 import java.util.Objects;
 
-//TODO Javadoc
 public abstract class Requirement implements LogicUnit {
 
     private final BlackWidow plugin;
     private final String id;
     private final boolean inverted;
 
-    //TODO Javadoc
     public Requirement(
         final BlackWidow plugin,
         final String id,
@@ -40,20 +38,17 @@ public abstract class Requirement implements LogicUnit {
         this.inverted = inverted;
     }
 
-    //TODO Javadoc
     public final boolean validate(final Context context) {
         return !inverted && validateImpl(context);
     }
 
-    //TODO Javadoc
     protected abstract boolean validateImpl(final Context context);
 
-    //TODO Javadoc
+    @SuppressWarnings("unused")
     public final String id() {
         return Objects.requireNonNull(id, "id");
     }
 
-    //TODO javadoc
     protected final BlackWidow plugin() {
         return Objects.requireNonNull(plugin, "plugin");
     }
