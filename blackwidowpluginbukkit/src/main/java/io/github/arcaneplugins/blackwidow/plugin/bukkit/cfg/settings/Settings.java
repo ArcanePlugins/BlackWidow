@@ -83,18 +83,15 @@ public final class Settings extends YamlCfg {
         //noinspection SwitchStatementWithTooFewBranches
         switch (installedVer) {
             case 1 -> {
-                final CommentedConfigurationNode rootNode = root().node("cmd-blocking");
-                final CommentedConfigurationNode newNode = rootNode.node("update-checker");
+                final CommentedConfigurationNode updChkNode = root().node("update-checker");
                 try {
-                    newNode.act(n -> {
-                        newNode.node("enabled").set(Boolean.class, true);
-                        newNode.node("run-on-startup").set(Boolean.class, true);
-                        newNode.node("repeat-timer-duration-mins").set(Integer.class, 60);
-                        newNode.node("log-updates").set(Boolean.class, true);
-                        newNode.node("notify-players-with-permission").set(Boolean.class, true);
-                    });
+                    updChkNode.node("enabled").set(true);
+                    updChkNode.node("run-on-startup").set(true);
+                    updChkNode.node("repeat-timer-duration-mins").set(60);
+                    updChkNode.node("log-updates").set(true);
+                    updChkNode.node("notify-players-with-permission").set(true);
 
-                root().node("do-not-touch", "version").node("installed").set(2);
+                    root().node("do-not-touch", "version", "installed").set(2);
                 } catch (SerializationException e) {
                     plugin().getLogger().warning("");
                 }

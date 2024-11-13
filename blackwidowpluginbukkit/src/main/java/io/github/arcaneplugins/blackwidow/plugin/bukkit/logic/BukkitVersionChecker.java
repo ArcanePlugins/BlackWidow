@@ -24,7 +24,7 @@ public class BukkitVersionChecker {
 
     public void load(final boolean isStartup){
         final CommentedConfigurationNode settings = plugin.settings().root()
-                .node("cmd-blocking", "update-checker");
+                .node("update-checker");
 
         final boolean enabled = settings.node("enabled").getBoolean(true);
         final boolean runOnStartup = settings.node("run-on-startup").getBoolean(true);
