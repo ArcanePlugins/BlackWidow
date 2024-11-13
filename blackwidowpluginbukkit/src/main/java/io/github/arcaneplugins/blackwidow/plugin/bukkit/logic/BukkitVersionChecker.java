@@ -8,6 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 
+import java.io.FileNotFoundException;
 import java.io.InvalidObjectException;
 
 /**
@@ -100,17 +101,17 @@ public class BukkitVersionChecker {
     }
 
     private void checkForLatestVersion() {
-        // this function
-        final UpdateChecker updateChecker = new UpdateChecker("BlackWidow");
-
         try {
-            final boolean result = updateChecker.checkLatestVersion(latestVersion -> {
+            UpdateChecker.getLatestVersion("BlackWidow", latestVersion -> {
                 //noinspection deprecation
                 final String currentVersion = plugin.getDescription().getVersion()
                         .split(" ")[0];
 
-                if (latestVersion == null && logUpdates) {
-                    plugin.getLogger().warning("Error check for latest version, string was null");
+                if (latestVersion == null) {
+                    if (logUpdates){
+                        plugin.getLogger().warning("Error check for latest version, string was null");
+                    }
+
                     return;
                 }
 
@@ -148,10 +149,9 @@ public class BukkitVersionChecker {
                     notifyPlayers();
                 }
             });
-
-            if (!result) {
-                plugin.getLogger().warning("Error getting latest version: " + updateChecker.errorMessage());
-            }
+        } catch (FileNotFoundException e) {
+            // this exception occurs if the dest URL is incorrect such as a typo in the resource name
+            plugin.getLogger().warning("Error getting latest version, file not found: " + e.getMessage());
         } catch (Exception e) {
             plugin.getLogger().warning("Error getting latest version: " + e.getMessage());
         }
