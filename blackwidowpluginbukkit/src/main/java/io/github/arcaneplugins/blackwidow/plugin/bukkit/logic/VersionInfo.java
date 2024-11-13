@@ -1,0 +1,93 @@
+package io.github.arcaneplugins.blackwidow.plugin.bukkit.logic;
+
+import java.io.InvalidObjectException;
+import java.util.LinkedList;
+import java.util.List;
+
+import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.ClassUtil;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * A custom implementation for comparing program versions
+ *
+ * @author stumper66
+ * @since 2.6.0
+ */
+public class VersionInfo implements Comparable<VersionInfo> {
+
+    public VersionInfo(final String version) throws InvalidObjectException {
+        if (version == null) {
+            throw new NullPointerException("version can't be null");
+        }
+
+        this.versionStr = version;
+        final String[] split = version.split("\\.");
+        this.thisVerSplit = new LinkedList<>();
+        for (final String numTemp : split) {
+            if (!ClassUtil.isDouble(numTemp)) {
+                throw new InvalidObjectException("Version can only contain numbers and periods");
+            }
+            final int intD = Integer.parseInt(numTemp);
+            thisVerSplit.add(intD);
+        }
+
+        for (int i = 4; i < thisVerSplit.size(); i++) {
+            thisVerSplit.add(0);
+        }
+    }
+
+    private final String versionStr;
+    private final List<Integer> thisVerSplit;
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof VersionInfo)) {
+            return false;
+        }
+
+        return this.versionStr.equals(((VersionInfo) o).getVersion());
+    }
+
+    @Override
+    public String toString() {
+        return this.versionStr;
+    }
+
+    private String getVersion() {
+        return this.versionStr;
+    }
+
+    @Override
+    public int compareTo(final @NotNull VersionInfo v) {
+        for (int i = 0; i < 4; i++) {
+
+            if (v.thisVerSplit.size() <= i && this.thisVerSplit.size() - 1 <= i) {
+                break;
+            }
+
+            // if one has extra digits we'll assume that one is newer
+            else if (v.thisVerSplit.size() <= i) {
+                return 1;
+            } else if (this.thisVerSplit.size() <= i) {
+                return -1;
+            }
+
+            final int compareInt = v.thisVerSplit.get(i);
+            final int thisInt = this.thisVerSplit.get(i);
+
+            if (thisInt > compareInt) {
+                return 1;
+            } else if (thisInt < compareInt) {
+                return -1;
+            }
+        }
+
+        return 0;
+    }
+}

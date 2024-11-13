@@ -44,4 +44,17 @@ public final class ClassUtil {
         return true;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public static boolean isDouble(final String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (final NumberFormatException ex) {
+            return false;
+        }
+    }
 }

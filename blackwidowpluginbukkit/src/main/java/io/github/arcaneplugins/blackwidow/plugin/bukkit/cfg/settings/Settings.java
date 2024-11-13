@@ -21,7 +21,9 @@ package io.github.arcaneplugins.blackwidow.plugin.bukkit.cfg.settings;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.cfg.YamlCfg;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.DebugCategory;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -32,7 +34,7 @@ public final class Settings extends YamlCfg {
     // REMEMBER TO UPDATE THE METHOD BELOW 'upgradeFile' IF THIS IS INCREMENTED.
     // ALSO REMEMBER TO UPDATE THE FILE ITSELF - BOTH THE 'original' AND 'installed' VALUES SHOULD MATCH THIS.
     // <<< !!! WARNING !!! NOTICE THIS MESSAGE !!! >>>
-    private static final int LATEST_FILE_VERSION = 1;
+    private static final int LATEST_FILE_VERSION = 2;
 
     public Settings(
         final BlackWidow plugin
@@ -81,10 +83,21 @@ public final class Settings extends YamlCfg {
         //noinspection SwitchStatementWithTooFewBranches
         switch (installedVer) {
             case 1 -> {
-                // Do nothing.
+                final CommentedConfigurationNode rootNode = root().node("cmd-blocking");
+                final CommentedConfigurationNode newNode = rootNode.node("update-checker");
+                try {
+                    newNode.act(n -> {
+                        newNode.node("enabled").set(Boolean.class, true);
+                        newNode.node("run-on-startup").set(Boolean.class, true);
+                        newNode.node("repeat-timer-duration-mins").set(Integer.class, 60);
+                        newNode.node("log-updates").set(Boolean.class, true);
+                        newNode.node("notify-players-with-permission").set(Boolean.class, true);
+                    });
 
-                //noinspection UnnecessaryBreak
-                break;
+                root().node("do-not-touch", "version").node("installed").set(2);
+                } catch (SerializationException e) {
+                    plugin().getLogger().warning("");
+                }
             }
             default -> throw new IllegalArgumentException("No upgrade logic defined for file version v" + installedVer);
         }

@@ -87,6 +87,7 @@ public abstract class YamlCfg {
                     "this issue ASAP, as a manually-adjusted file version can cause instability.");
             }
             if (installedVer < latestVer) {
+                int lastVersion = installedFileVersion();
                 plugin().getLogger().info("Config '" + fileName() + "' is outdated, automatically upgrading.");
                 while (installedVer < latestFileVersion()) {
                     plugin().getLogger().info("Upgrading '" + fileName() + "' from v" +
@@ -94,6 +95,13 @@ public abstract class YamlCfg {
                     upgradeFile();
                     write();
                     installedVer = installedFileVersion();
+                    if (installedVer == lastVersion){
+                        // prevent potential endless loop
+                        plugin().getLogger().warning("There was an error upgrading the file version, " +
+                                "the version number was not incremented");
+                        break;
+                    }
+                    lastVersion = installedVer;
                 }
             } else if (installedVer > latestVer) {
                 plugin().getLogger().warning("Config '" + fileName() + "' apparently has version '" + installedVer +

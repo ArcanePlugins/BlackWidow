@@ -25,6 +25,7 @@ import io.github.arcaneplugins.blackwidow.plugin.bukkit.command.CommandManager;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.component.cmdblocking.CmdBlocker;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.listener.ListenerManager;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.logic.LogicManager;
+import io.github.arcaneplugins.blackwidow.plugin.bukkit.logic.BukkitVersionChecker;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.ClassUtil;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.DebugCategory;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.ExceptionUtil;
@@ -54,6 +55,7 @@ public final class BlackWidow extends JavaPlugin {
     private final LogicManager logicManager = new LogicManager(this);
     private final EnumSet<DebugCategory> debugCategories = EnumSet.noneOf(DebugCategory.class);
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
+    public final BukkitVersionChecker bukkitVersionChecker = new BukkitVersionChecker(this);
 
     private boolean usingPaper = false;
     private BukkitAudiences adventure = null;
@@ -97,6 +99,7 @@ public final class BlackWidow extends JavaPlugin {
             loadComponents();
             listenerManager().load();
             commandManager().load();
+            bukkitVersionChecker.load(true);
         } catch (Exception ex) {
             ExceptionUtil.logException(this, ex, "An error occurred whilst enabling BlackWidow.");
             return;
@@ -149,6 +152,7 @@ public final class BlackWidow extends JavaPlugin {
             loadConfigs();
             logicManager().load();
             loadComponents();
+            bukkitVersionChecker.load(false);
         } catch (Exception ex) {
             ExceptionUtil.logException(this, ex, "An error occurred whilst performing a soft-reload.");
             return;
