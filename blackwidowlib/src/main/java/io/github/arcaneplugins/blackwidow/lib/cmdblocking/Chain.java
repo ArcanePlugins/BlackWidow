@@ -64,12 +64,12 @@ public class Chain {
      * @since 1.0.0
      */
     public Chain(
-        final String id,
-        final boolean enabled,
-        final Policy policy,
-        final Collection<String> rules,
-        final boolean isRegex,
-        final Collection<EvalCause> causeFilters
+            final String id,
+            final boolean enabled,
+            final Policy policy,
+            final Collection<String> rules,
+            final boolean isRegex,
+            final Collection<EvalCause> causeFilters
     ) {
         this.id = Objects.requireNonNull(id, "id");
         this.enabled = enabled;
@@ -86,12 +86,12 @@ public class Chain {
 
         if (!isRegex()) {
             for (final String rule : rules()) {
-                if(rule.startsWith("/")) {
+                if (rule.startsWith("/")) {
                     continue;
                 }
 
                 throw new IllegalArgumentException("Rule string='" + rule + "' in chain id='" + id() + "' does" +
-                    "not start with a slash (/); for a non-regex chain, all rules must start with a slash");
+                        "not start with a slash (/); for a non-regex chain, all rules must start with a slash");
             }
         }
 
@@ -233,7 +233,7 @@ public class Chain {
      * @since 1.0.0
      */
     protected static String[] transformToArgs(
-        final String str
+            final String str
     ) {
         if (str.isEmpty()) {
             throw new IllegalArgumentException("str parameter must not be empty");
@@ -244,10 +244,10 @@ public class Chain {
         }
 
         return str
-            .substring(1) // we don't want the starting slash.
-            .toLowerCase(Locale.ROOT) // let's use lowercase for case insensitivity.
-            .trim() // trim leading and trialing whitespace otherwise it can break String#split below.
-            .split("\\s+"); // finally, split by whitespace via regex.
+                .substring(1) // we don't want the starting slash.
+                .toLowerCase(Locale.ROOT) // let's use lowercase for case insensitivity.
+                .trim() // trim leading and trialing whitespace otherwise it can break String#split below.
+                .split("\\s+"); // finally, split by whitespace via regex.
     }
 
     /**
@@ -262,11 +262,11 @@ public class Chain {
      * @since 1.0.0
      */
     private MatchResult matchRulePattern(
-        final String command,
-        final String rule,
-        final Pattern pattern,
-        final EvalCause cause,
-        final Consumer<Supplier<String>> debugger
+            final String command,
+            final String rule,
+            final Pattern pattern,
+            final EvalCause cause,
+            final Consumer<Supplier<String>> debugger
     ) {
         Objects.requireNonNull(command, "command");
         Objects.requireNonNull(rule, "rule");
@@ -298,9 +298,9 @@ public class Chain {
         }
 
         return new MatchResult(
-            pattern.matcher(command).find(),
-            rule,
-            "regex pattern match find result"
+                pattern.matcher(command).find(),
+                rule,
+                "regex pattern match find result"
         );
     }
 
@@ -315,12 +315,12 @@ public class Chain {
      * @since 1.0.0
      */
     private MatchResult matchRuleArgs(
-        final String cmd,
-        final String[] cmdArgs,
-        final String rule,
-        final String[] ruleArgs,
-        final EvalCause cause,
-        final Consumer<Supplier<String>> debugger
+            final String cmd,
+            final String[] cmdArgs,
+            final String rule,
+            final String[] ruleArgs,
+            final EvalCause cause,
+            final Consumer<Supplier<String>> debugger
     ) {
         Objects.requireNonNull(cmd, "cmd");
         Objects.requireNonNull(cmdArgs, "cmdArgs");
@@ -339,10 +339,10 @@ public class Chain {
         final int minLen = Math.min(cmdArgs.length, ruleArgs.length);
 
         debugger.accept(() -> "matchRule: Checking cmd='" + cmd + "', " +
-            "rule='" + rule + "', " +
-            "minLen='" + minLen + "', " +
-            "cmdArgs='" + Arrays.toString(cmdArgs) + "' (len='" + cmdArgs.length + "'), " +
-            "ruleArgs='" + Arrays.toString(ruleArgs) + "' (len='" + ruleArgs.length + "').");
+                "rule='" + rule + "', " +
+                "minLen='" + minLen + "', " +
+                "cmdArgs='" + Arrays.toString(cmdArgs) + "' (len='" + cmdArgs.length + "'), " +
+                "ruleArgs='" + Arrays.toString(ruleArgs) + "' (len='" + ruleArgs.length + "').");
 
         if (ruleArgs.length == 0 && cmdArgs.length == 0) {
             debugger.accept(() -> "matchRule: Yes, because rule args and cmd args are both empty arrays.");
@@ -351,9 +351,9 @@ public class Chain {
 
         if (ruleArgs.length > cmdArgs.length) {
             debugger.accept(() -> "matchRule: No, because it's impossible for this command to match this rule, " +
-                "because it doesn't have an equal or greater number args.");
+                    "because it doesn't have an equal or greater number args.");
             return new MatchResult(false, rule, "rule has more args than cmd, thus " +
-                "impossible to match");
+                    "impossible to match");
         }
 
         for (int i = 0; i < minLen; i++) {
@@ -367,7 +367,7 @@ public class Chain {
             if (!cmdArg.equals(ruleArg) && !ruleArg.equals("*")) {
                 debugger.accept(() -> "matchRule: No, since args don't match and ruleArg is not a wildcard");
                 return new MatchResult(false, rule, "arg at index '" + i + "' didn't match, and " +
-                    "ruleArg is not a wildcard");
+                        "ruleArg is not a wildcard");
             }
 
             // if we're looking at the last arg of the rule, we've found a match.
@@ -394,9 +394,9 @@ public class Chain {
      * @since 1.0.0
      */
     public final MatchResult matches(
-        final String command,
-        final EvalCause cause,
-        final Consumer<Supplier<String>> debugger
+            final String command,
+            final EvalCause cause,
+            final Consumer<Supplier<String>> debugger
     ) {
         Objects.requireNonNull(command, "command");
         Objects.requireNonNull(debugger, "debugger");
@@ -422,15 +422,15 @@ public class Chain {
             debugger.accept(() -> "matches: Checking rule '" + rule + "'.");
 
             final MatchResult res = isRegex() ?
-                matchRulePattern(command, rule, rulesRegexPatterns().get(rule), cause, debugger) :
-                matchRuleArgs(command, transformToArgs(command), rule, rulesAsArgs().get(rule), cause, debugger);
+                    matchRulePattern(command, rule, rulesRegexPatterns().get(rule), cause, debugger) :
+                    matchRuleArgs(command, transformToArgs(command), rule, rulesAsArgs().get(rule), cause, debugger);
 
             if (res.matched()) {
                 debugger.accept(() -> "matches: Matched!");
                 return new MatchResult(
-                    true,
-                    res.rule(),
-                    "in rule '" + rule + "'; " + res.description()
+                        true,
+                        res.rule(),
+                        "in rule '" + rule + "'; " + res.description()
                 );
             }
 

@@ -35,7 +35,7 @@ public final class ListenerManager {
     private final Collection<Listener> listeners = new LinkedHashSet<>();
 
     public ListenerManager(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         this.plugin = plugin;
     }
@@ -47,9 +47,9 @@ public final class ListenerManager {
         ));
 
         listeners().add(
-            plugin().usingPaper() && plugin().usePaperFeatures() ?
-                new AsyncPlayerCommandSendListener(plugin()) :
-                new PlayerCommandSendListener(plugin())
+                plugin().usingPaper() && plugin().usePaperFeatures() ?
+                        new AsyncPlayerCommandSendListener(plugin()) :
+                        new PlayerCommandSendListener(plugin())
         );
     }
 

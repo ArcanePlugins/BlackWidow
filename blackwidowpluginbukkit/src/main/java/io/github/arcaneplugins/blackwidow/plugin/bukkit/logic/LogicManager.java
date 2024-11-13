@@ -41,7 +41,7 @@ public final class LogicManager {
     private final BlackWidow plugin;
 
     public LogicManager(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         this.plugin = plugin;
     }
@@ -61,8 +61,8 @@ public final class LogicManager {
 
     private void loadThirdPartyRequirements() {
         final LoadRequirementsReadyEvent event = new LoadRequirementsReadyEvent(
-            plugin(),
-            requirementParsers()
+                plugin(),
+                requirementParsers()
         );
         plugin().getServer().getPluginManager().callEvent(event);
     }
@@ -73,37 +73,37 @@ public final class LogicManager {
 
     private void loadThirdPartyActions() {
         final LoadActionsReadyEvent event = new LoadActionsReadyEvent(
-            plugin(),
-            actionParsers()
+                plugin(),
+                actionParsers()
         );
         plugin().getServer().getPluginManager().callEvent(event);
     }
 
     public Action parseActionAtNode(
-        final CommentedConfigurationNode node
+            final CommentedConfigurationNode node
     ) {
         final String id = Objects.requireNonNull(
-            node.node("id").getString(),
-            "Action node at path '" + node.path() + "' must define an ID with 'id'"
+                node.node("id").getString(),
+                "Action node at path '" + node.path() + "' must define an ID with 'id'"
         );
 
         try {
             return Objects.requireNonNull(
-                actionParsers().get(id),
-                "Action node at path '" + node.path() + "' must define the ID ('id') of an Action that" +
-                    "exists (did you make a typo?), but got '" + id + "'"
+                    actionParsers().get(id),
+                    "Action node at path '" + node.path() + "' must define the ID ('id') of an Action that" +
+                            "exists (did you make a typo?), but got '" + id + "'"
             ).apply(node);
         } catch (final Exception ex) {
             throw new RuntimeException(
-                "Unable to parse Action with ID '" + id + "' at node path '" + node.path() + "': " +
-                    ex.getLocalizedMessage(),
-                ex
+                    "Unable to parse Action with ID '" + id + "' at node path '" + node.path() + "': " +
+                            ex.getLocalizedMessage(),
+                    ex
             );
         }
     }
 
     public Collection<Action> parseActionsInChildrenOfNode(
-        final CommentedConfigurationNode nodes
+            final CommentedConfigurationNode nodes
     ) {
         final Collection<Action> actions = new LinkedHashSet<>();
         for (final CommentedConfigurationNode node : nodes.childrenList()) {
@@ -113,30 +113,30 @@ public final class LogicManager {
     }
 
     public Requirement parseRequirementAtNode(
-        final CommentedConfigurationNode node
+            final CommentedConfigurationNode node
     ) {
         final String id = Objects.requireNonNull(
-            node.node("id").getString(),
-            "Requirement node at path '" + node.path() + "' must define an ID with 'id'"
+                node.node("id").getString(),
+                "Requirement node at path '" + node.path() + "' must define an ID with 'id'"
         );
 
         try {
             return Objects.requireNonNull(
-                requirementParsers().get(id),
-                "Requirement node at path '" + node.path() + "' must define the ID ('id') of a Requirement that" +
-                    "exists (did you make a typo?), but got '" + id + "'"
+                    requirementParsers().get(id),
+                    "Requirement node at path '" + node.path() + "' must define the ID ('id') of a Requirement that" +
+                            "exists (did you make a typo?), but got '" + id + "'"
             ).apply(node);
         } catch (final Exception ex) {
             throw new RuntimeException(
-                "Unable to parse Requirement with ID '" + id + "' at node path '" + node.path() + "': " +
-                    ex.getLocalizedMessage(),
-                ex
+                    "Unable to parse Requirement with ID '" + id + "' at node path '" + node.path() + "': " +
+                            ex.getLocalizedMessage(),
+                    ex
             );
         }
     }
 
     public Collection<Requirement> parseRequirementsInChildrenOfNode(
-        final CommentedConfigurationNode nodes
+            final CommentedConfigurationNode nodes
     ) {
         final Collection<Requirement> requirements = new LinkedHashSet<>();
         for (final CommentedConfigurationNode node : nodes.childrenList()) {

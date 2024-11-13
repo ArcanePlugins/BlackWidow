@@ -1,43 +1,44 @@
 package io.github.arcaneplugins.blackwidow.plugin.bukkit.logic;
 
+import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.ClassUtil;
+import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.InvalidObjectException;
 import java.util.LinkedList;
 import java.util.List;
-
-import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.ClassUtil;
-import org.jetbrains.annotations.NotNull;
+import java.util.Objects;
 
 /**
  * A custom implementation for comparing program versions
  *
  * @author stumper66
- * @since 2.6.0
+ * @since 1.1.0
  */
-public class VersionInfo implements Comparable<VersionInfo> {
+public final class VersionInfo implements Comparable<VersionInfo> {
 
-    public VersionInfo(final String version) throws InvalidObjectException {
-        if (version == null) {
-            throw new NullPointerException("version can't be null");
-        }
+    public VersionInfo(
+            @NotNull final String verStr
+    ) throws InvalidObjectException {
+        Objects.requireNonNull(verStr, "verStr");
 
-        this.versionStr = version;
-        final String[] split = version.split("\\.");
-        this.thisVerSplit = new LinkedList<>();
-        for (final String numTemp : split) {
-            if (!ClassUtil.isDouble(numTemp)) {
+        this.verStr = verStr;
+
+        for (final String numTemp : verStr.split("\\.")) {
+            if (!StringUtil.isDouble(numTemp)) {
                 throw new InvalidObjectException("Version can only contain numbers and periods");
             }
             final int intD = Integer.parseInt(numTemp);
-            thisVerSplit.add(intD);
+            verSplit().add(intD);
         }
 
-        for (int i = 4; i < thisVerSplit.size(); i++) {
-            thisVerSplit.add(0);
+        for (int i = 4; i < verSplit().size(); i++) {
+            verSplit().add(0);
         }
     }
 
-    private final String versionStr;
-    private final List<Integer> thisVerSplit;
+    private final String verStr;
+    private final List<Integer> verSplit = new LinkedList<>();
 
     @Override
     public boolean equals(final Object o) {
@@ -51,35 +52,39 @@ public class VersionInfo implements Comparable<VersionInfo> {
             return false;
         }
 
-        return this.versionStr.equals(((VersionInfo) o).getVersion());
+        return this.verStr.equals(((VersionInfo) o).verStr());
     }
 
     @Override
+    @NotNull
     public String toString() {
-        return this.versionStr;
+        return verStr();
     }
 
-    private String getVersion() {
-        return this.versionStr;
+    @NotNull
+    private String verStr() {
+        return Objects.requireNonNull(verStr, "verStr");
     }
 
     @Override
-    public int compareTo(final @NotNull VersionInfo v) {
+    public int compareTo(
+            @NotNull final VersionInfo other
+    ) {
         for (int i = 0; i < 4; i++) {
 
-            if (v.thisVerSplit.size() <= i && this.thisVerSplit.size() - 1 <= i) {
+            if (other.verSplit().size() <= i && this.verSplit().size() - 1 <= i) {
                 break;
             }
 
             // if one has extra digits we'll assume that one is newer
-            else if (v.thisVerSplit.size() <= i) {
+            else if (other.verSplit().size() <= i) {
                 return 1;
-            } else if (this.thisVerSplit.size() <= i) {
+            } else if (verSplit().size() <= i) {
                 return -1;
             }
 
-            final int compareInt = v.thisVerSplit.get(i);
-            final int thisInt = this.thisVerSplit.get(i);
+            final int compareInt = other.verSplit().get(i);
+            final int thisInt = this.verSplit().get(i);
 
             if (thisInt > compareInt) {
                 return 1;
@@ -89,5 +94,9 @@ public class VersionInfo implements Comparable<VersionInfo> {
         }
 
         return 0;
+    }
+
+    private List<Integer> verSplit() {
+        return Objects.requireNonNull(verSplit, "verSplit");
     }
 }

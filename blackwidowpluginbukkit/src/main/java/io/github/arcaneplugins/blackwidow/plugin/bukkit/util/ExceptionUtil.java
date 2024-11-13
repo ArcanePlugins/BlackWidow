@@ -29,9 +29,9 @@ public class ExceptionUtil {
     }
 
     public static void logException(
-        final BlackWidow plugin,
-        final Exception ex,
-        final String msg
+            final BlackWidow plugin,
+            final Exception ex,
+            final String msg
     ) {
         final Logger logger = plugin.getLogger();
 
@@ -42,10 +42,10 @@ public class ExceptionUtil {
         logger.severe("");
         logger.severe(minidiv + "Warning: Please Read Below Carefully");
         logger.severe("\tBlackWidow has detected an issue, please carefully read the below and attempt to " +
-            "resolve the issue (or otherwise, report it to the maintainers via the details also provided below).");
+                "resolve the issue (or otherwise, report it to the maintainers via the details also provided below).");
         logger.severe("");
         logger.severe("\tSometimes, these are simple errors caused when users misconfigure the plugin, other " +
-            "times, it can be a bug (issue) with the plugin's code which the maintainers might not know about.");
+                "times, it can be a bug (issue) with the plugin's code which the maintainers might not know about.");
         logger.severe("");
         logger.severe(bigdiv);
         logger.severe("");
@@ -60,11 +60,11 @@ public class ExceptionUtil {
         logger.severe("");
         logger.severe(minidiv + "Contacting Maintainers for Assistance");
         logger.severe("If this is an issue you can't fix, or if it is a bug report, please contact the " +
-            "maintainers by checking for recommended links in the GitHub repository description.");
+                "maintainers by checking for recommended links in the GitHub repository description.");
         logger.severe("Please visit: < https://github.com/ArcanePlugins/BlackWidow/ >");
         logger.severe("");
         logger.severe("Our Discord Server (should be linked within the page above) is usually the best avenue " +
-            "for users to report issues like these.");
+                "for users to report issues like these.");
         logger.severe("");
         logger.severe("It's usually worth checking the Frequently Asked Questions page (if applicable).");
         logger.severe("");

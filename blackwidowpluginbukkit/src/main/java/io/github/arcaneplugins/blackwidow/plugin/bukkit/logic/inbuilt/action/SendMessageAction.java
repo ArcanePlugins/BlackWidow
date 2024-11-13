@@ -37,26 +37,26 @@ public final class SendMessageAction extends Action {
     private final Collection<String> message;
 
     public SendMessageAction(
-        final BlackWidow plugin,
-        final Collection<String> message
+            final BlackWidow plugin,
+            final Collection<String> message
     ) {
         super(plugin, ID);
         this.message = Objects.requireNonNull(message, "message");
     }
 
     public SendMessageAction(
-        final BlackWidow plugin,
-        final CommentedConfigurationNode node
+            final BlackWidow plugin,
+            final CommentedConfigurationNode node
     ) {
         super(
-            plugin,
-            Objects.requireNonNull(node.node("id").getString(), "id")
+                plugin,
+                Objects.requireNonNull(node.node("id").getString(), "id")
         );
 
         try {
             this.message = Objects.requireNonNull(
-                node.node("msg").getList(String.class),
-                "msg"
+                    node.node("msg").getList(String.class),
+                    "msg"
             );
         } catch (final SerializationException ex) {
             throw new RuntimeException("Unable to read msg string list", ex);
@@ -76,12 +76,12 @@ public final class SendMessageAction extends Action {
     @Override
     public void run(Context context) {
         final Audience advPlayer = plugin()
-            .adventure()
-            .player(context.player(true));
+                .adventure()
+                .player(context.player(true));
 
         message()
-            .stream()
-            .map(msg -> Translation.formatify(plugin(), msg, Collections.emptyMap()))
-            .forEachOrdered(advPlayer::sendMessage);
+                .stream()
+                .map(msg -> Translation.formatify(plugin(), msg, Collections.emptyMap()))
+                .forEachOrdered(advPlayer::sendMessage);
     }
 }

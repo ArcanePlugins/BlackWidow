@@ -29,7 +29,7 @@ public final class CommandManager {
     private final BlackWidow plugin;
 
     public CommandManager(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         this.plugin = plugin;
     }
@@ -37,10 +37,10 @@ public final class CommandManager {
     public void init() {
         plugin().getLogger().info("Initialising commands.");
         CommandAPI.onLoad(
-            new CommandAPIBukkitConfig(plugin())
-                .verboseOutput(false)
-                .silentLogs(true)
-                .usePluginNamespace()
+                new CommandAPIBukkitConfig(plugin())
+                        .verboseOutput(false)
+                        .silentLogs(true)
+                        .usePluginNamespace()
         );
         registerCommands();
     }
@@ -59,10 +59,10 @@ public final class CommandManager {
         CommandAPI.unregister("blackwidow", true);
         CommandAPI.onDisable();
         CommandAPI.getRegisteredCommands()
-            .stream()
-            .map(RegisteredCommand::commandName)
-            .iterator()
-            .forEachRemaining(CommandAPI::unregister);
+                .stream()
+                .map(RegisteredCommand::commandName)
+                .iterator()
+                .forEachRemaining(CommandAPI::unregister);
     }
 
     private BlackWidow plugin() {

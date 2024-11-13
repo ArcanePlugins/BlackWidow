@@ -30,7 +30,7 @@ public final class BlackWidowCommand extends CommandAPICommand {
     private final BlackWidow plugin;
 
     public BlackWidowCommand(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         super("blackwidow");
         this.plugin = plugin;
@@ -39,8 +39,8 @@ public final class BlackWidowCommand extends CommandAPICommand {
         withShortDescription("Base command to view info of and manage the BlackWidow plugin.");
         withFullDescription("Base command to view and manage the BlackWidow plugin.");
         withSubcommands(
-            new ReloadSubcommand(plugin()),
-            new VersionSubcommand(plugin())
+                new ReloadSubcommand(plugin()),
+                new VersionSubcommand(plugin())
         );
     }
 

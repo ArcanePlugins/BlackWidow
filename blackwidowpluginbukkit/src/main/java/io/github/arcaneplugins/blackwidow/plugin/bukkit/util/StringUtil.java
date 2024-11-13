@@ -18,30 +18,29 @@
 
 package io.github.arcaneplugins.blackwidow.plugin.bukkit.util;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
- * {@link ClassUtil} contains a variety of utilities related to {@link Class Java classes}.
+ * {@link StringUtil} contains a variety of utilities related to {@link String Java String objects}.
  *
  * @author lokka30
- * @since 1.0.0
+ * @since 1.1.0
  */
-public final class ClassUtil {
+public final class StringUtil {
 
-    /**
-     * Returns whether a class at the specified classpath exists at runtime. Useful for confirming certain features
-     * are available before attempting to use them.
-     *
-     * @param classpath Classpath where the desired class is located.
-     * @return Whether the class was found.
-     * @author lokka30
-     * @since 1.0.0
-     */
-    public static boolean classExists(final String classpath) {
-        try {
-            Class.forName(classpath);
-        } catch (ClassNotFoundException e) {
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public static boolean isDouble(
+            @Nullable final String str
+    ) {
+        if (str == null || str.isBlank()) {
             return false;
         }
-        return true;
-    }
 
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (final NumberFormatException ex) {
+            return false;
+        }
+    }
 }

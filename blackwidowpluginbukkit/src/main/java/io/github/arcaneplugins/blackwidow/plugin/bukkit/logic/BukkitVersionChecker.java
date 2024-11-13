@@ -10,8 +10,14 @@ import org.spongepowered.configurate.CommentedConfigurationNode;
 
 import java.io.InvalidObjectException;
 
+/**
+ * Handles the update checker for Bukkit implementations
+ *
+ * @author stumper66
+ * @since 1.1.0
+ */
 public class BukkitVersionChecker {
-    public BukkitVersionChecker(final BlackWidow plugin){
+    public BukkitVersionChecker(final BlackWidow plugin) {
         this.plugin = plugin;
     }
 
@@ -22,7 +28,7 @@ public class BukkitVersionChecker {
     private String notifyMessage;
     private int lastTimerDuration;
 
-    public void load(final boolean isStartup){
+    public void load(final boolean isStartup) {
         final CommentedConfigurationNode settings = plugin.settings().root()
                 .node("update-checker");
 
@@ -32,41 +38,41 @@ public class BukkitVersionChecker {
         logUpdates = settings.node("log-updates").getBoolean(true);
         notifyPlayers = settings.node("notify-players-with-permission").getBoolean(true);
 
-        if (!enabled){
+        if (!enabled) {
             disableChecker();
             return;
         }
 
         startTimerIfNeeded(repeatTimerDuration);
 
-        if (runOnStartup && isStartup){
+        if (runOnStartup && isStartup) {
             getLatestVersion();
         }
     }
 
-    public boolean getNotifyPlayers(){
+    public boolean getNotifyPlayers() {
         return notifyPlayers;
     }
 
-    public String getNotifyMessage(){
+    public String getNotifyMessage() {
         return notifyMessage;
     }
 
-    private void disableChecker(){
-        if (notifyTask != null && !notifyTask.isCancelled()){
+    private void disableChecker() {
+        if (notifyTask != null && !notifyTask.isCancelled()) {
             notifyTask.cancel();
             notifyTask = null;
         }
     }
 
-    private void startTimerIfNeeded(final int repeatTimerDuration){
-        if (repeatTimerDuration <= 0){
+    private void startTimerIfNeeded(final int repeatTimerDuration) {
+        if (repeatTimerDuration <= 0) {
             disableChecker();
             return;
         }
 
         if (notifyTask != null && !notifyTask.isCancelled()
-                && repeatTimerDuration == lastTimerDuration){
+                && repeatTimerDuration == lastTimerDuration) {
             return;
         }
 
@@ -84,7 +90,7 @@ public class BukkitVersionChecker {
         this.notifyTask = runnable.runTaskTimerAsynchronously(plugin, delay, delay);
     }
 
-    private void getLatestVersion(){
+    private void getLatestVersion() {
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -93,17 +99,17 @@ public class BukkitVersionChecker {
         }.runTaskAsynchronously(plugin);
     }
 
-    private void checkForLatestVersion(){
+    private void checkForLatestVersion() {
         // this function
         final UpdateChecker updateChecker = new UpdateChecker("BlackWidow");
 
-        try{
-            final boolean result =  updateChecker.getLatestVersion(latestVersion -> {
+        try {
+            final boolean result = updateChecker.checkLatestVersion(latestVersion -> {
                 //noinspection deprecation
                 final String currentVersion = plugin.getDescription().getVersion()
                         .split(" ")[0];
 
-                if (latestVersion == null && logUpdates){
+                if (latestVersion == null && logUpdates) {
                     plugin.getLogger().warning("Error check for latest version, string was null");
                     return;
                 }
@@ -114,59 +120,55 @@ public class BukkitVersionChecker {
                 boolean isNewerVersion = false;
                 boolean wasUpToDate = false;
 
-                try{
+                try {
                     thisVersion = new VersionInfo(currentVersion);
                     hangarVersion = new VersionInfo(latestVersion);
 
                     isOutOfDate = (thisVersion.compareTo(hangarVersion) < 0);
                     isNewerVersion = (thisVersion.compareTo(hangarVersion) > 0);
-                }
-                catch (InvalidObjectException e){
+                } catch (InvalidObjectException e) {
                     plugin.getLogger().warning("Got exception creating version objects: " + e.getMessage());
                     isOutOfDate = !currentVersion.equals(latestVersion);
                 }
 
-                if (isNewerVersion){
+                if (isNewerVersion) {
                     notifyMessage = "Your BlackWindow version is a pre-release. Latest release version is " + latestVersion + ". (You're running " + currentVersion + ")";
-                }
-                else if (isOutOfDate){
+                } else if (isOutOfDate) {
                     notifyMessage = "Your BlackWidow version is outdated! Please update to " + latestVersion + " as soon as possible. (You're running " + currentVersion + ")";
-                }
-                else{
+                } else {
                     notifyMessage = "Your BlackWidow version is up to date (You're running " + currentVersion + ")";
                     wasUpToDate = true;
                 }
 
-                if (logUpdates){
+                if (logUpdates) {
                     plugin.getLogger().info(notifyMessage);
                 }
 
-                if (!wasUpToDate){
+                if (!wasUpToDate) {
                     notifyPlayers();
                 }
             });
 
-            if (!result){
-                plugin.getLogger().warning("Error getting latest version: " + updateChecker.getErrorMessage());
+            if (!result) {
+                plugin.getLogger().warning("Error getting latest version: " + updateChecker.errorMessage());
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             plugin.getLogger().warning("Error getting latest version: " + e.getMessage());
         }
     }
 
-    private void notifyPlayers(){
-        if (!notifyPlayers || notifyMessage == null){
+    private void notifyPlayers() {
+        if (!notifyPlayers || notifyMessage == null) {
             return;
         }
 
         final String requiredPermission = "blackwidow.notifyupdates";
 
-        for (final Player player : Bukkit.getOnlinePlayers()){
-            if (!player.isValid()){
+        for (final Player player : Bukkit.getOnlinePlayers()) {
+            if (!player.isValid()) {
                 continue;
             }
-            if (!player.hasPermission(requiredPermission)){
+            if (!player.hasPermission(requiredPermission)) {
                 continue;
             }
 

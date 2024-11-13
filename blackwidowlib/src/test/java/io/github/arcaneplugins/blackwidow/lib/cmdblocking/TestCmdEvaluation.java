@@ -34,66 +34,66 @@ public final class TestCmdEvaluation {
 
     // Various 'plugin checking' commands
     private static final String[] TEST_PLUGIN_CMDS = {
-        "/plugins", "/pl", "/version", "/ver", "/icanhasbukkit",
-        "/about", "/?", "/help", "/ehelp", "/paper", "/spigot"
+            "/plugins", "/pl", "/version", "/ver", "/icanhasbukkit",
+            "/about", "/?", "/help", "/ehelp", "/paper", "/spigot"
     };
 
     // Various programatically defined chains of rules, some regex ones provided at the bottom.
     // Chains should NOT contain 'donotuseinchains', doing so will make some tests fail (by design).
     private static final Collection<Chain> TEST_CHAINS = Arrays.asList(
-        new Chain("0", true, Policy.DENY, Arrays.asList("/cd reload *", "/"), false, EvalCause.setValues()),
-        new Chain("1", true, Policy.ALLOW, Collections.singletonList("/cd reload"), false, EvalCause.setValues()),
-        new Chain("2", true, Policy.DENY, Collections.singletonList("/cd"), false, EvalCause.setValues()),
-        new Chain("3", true, Policy.DENY, Arrays.asList(TEST_PLUGIN_CMDS), false, EvalCause.setValues()),
-        new Chain("4", true, Policy.ALLOW, Collections.singletonList("/es version"), false, EvalCause.setValues()),
-        new Chain("5", true, Policy.DENY, Arrays.asList("/es give", "/es enchant"), false, EvalCause.setValues()),
-        new Chain("6", true, Policy.ALLOW, Collections.singletonList("^(/heywhats(up)?(?:$|\\W)cool(beans)?(?:$|\\W).*)"), true, EvalCause.setValues()),
-        new Chain("7", true, Policy.DENY, Collections.singletonList("^(/heywhats(up)?(?:$|\\W).*)"), true, EvalCause.setValues()),
-        new Chain("8", false, Policy.DENY, Collections.singletonList("/thisshouldnotbedenied"), false, EvalCause.setValues()),
-        new Chain("9", true, Policy.DENY, Collections.singletonList("/blocksuggestionsonly"), false, EnumSet.of(EvalCause.CMD_SUGGESTION))
+            new Chain("0", true, Policy.DENY, Arrays.asList("/cd reload *", "/"), false, EvalCause.setValues()),
+            new Chain("1", true, Policy.ALLOW, Collections.singletonList("/cd reload"), false, EvalCause.setValues()),
+            new Chain("2", true, Policy.DENY, Collections.singletonList("/cd"), false, EvalCause.setValues()),
+            new Chain("3", true, Policy.DENY, Arrays.asList(TEST_PLUGIN_CMDS), false, EvalCause.setValues()),
+            new Chain("4", true, Policy.ALLOW, Collections.singletonList("/es version"), false, EvalCause.setValues()),
+            new Chain("5", true, Policy.DENY, Arrays.asList("/es give", "/es enchant"), false, EvalCause.setValues()),
+            new Chain("6", true, Policy.ALLOW, Collections.singletonList("^(/heywhats(up)?(?:$|\\W)cool(beans)?(?:$|\\W).*)"), true, EvalCause.setValues()),
+            new Chain("7", true, Policy.DENY, Collections.singletonList("^(/heywhats(up)?(?:$|\\W).*)"), true, EvalCause.setValues()),
+            new Chain("8", false, Policy.DENY, Collections.singletonList("/thisshouldnotbedenied"), false, EvalCause.setValues()),
+            new Chain("9", true, Policy.DENY, Collections.singletonList("/blocksuggestionsonly"), false, EnumSet.of(EvalCause.CMD_SUGGESTION))
     );
 
     // Commands to be tested which are expected to be evaluated with a DENY policy.
     public static final String[] TEST_CMDS_EXPECTING_DENY = {
-        "/cd abc", "/cd reloada", "/cd reloa", "/cd reload abc",
-        "/plugins", "/pl", "/version", "/ver", "/icanhasbukkit",
-        "/about", "/?", "/help", "/ehelp", "/paper", "/spigot",
-        "/es give", "/es enchant", "/cd", "/", "/:", "/hello:how",
-        "/the:quick brown fox", "/bukkit:help",
-        // regex:
-        "/heywhats",
-        "/heywhats coolio",
-        "/heywhats verycool",
-        "/heywhatsup",
-        "/heywhatsup coolio",
-        "/heywhatsup verycool",
+            "/cd abc", "/cd reloada", "/cd reloa", "/cd reload abc",
+            "/plugins", "/pl", "/version", "/ver", "/icanhasbukkit",
+            "/about", "/?", "/help", "/ehelp", "/paper", "/spigot",
+            "/es give", "/es enchant", "/cd", "/", "/:", "/hello:how",
+            "/the:quick brown fox", "/bukkit:help",
+            // regex:
+            "/heywhats",
+            "/heywhats coolio",
+            "/heywhats verycool",
+            "/heywhatsup",
+            "/heywhatsup coolio",
+            "/heywhatsup verycool",
     };
 
     // Commands to be tested which are expected to be evaluated with an ALLOW policy.
     public static final String[] TEST_CMDS_EXPECTING_ALLOW = {
-        "/cd reload", "/CD RELOAD", "//", "/es", "/es version", "/abcdefg", "/thisshouldnotbedenied",
-        // regex:
-        "/heywhats cool",
-        "/heywhats coolbeans",
-        "/heywhatsup cool",
-        "/heywhatsup coolbeans",
-        "/heywhatsup cool beans",
+            "/cd reload", "/CD RELOAD", "//", "/es", "/es version", "/abcdefg", "/thisshouldnotbedenied",
+            // regex:
+            "/heywhats cool",
+            "/heywhats coolbeans",
+            "/heywhatsup cool",
+            "/heywhatsup coolbeans",
+            "/heywhatsup cool beans",
     };
 
     // Commands to be tested which contains colons.
     // 'donotuseinchains' term is used to make it clear PLEASE DO NOT USE THIS TERM IN ANY CHAINS or it can mess
     // up the tests.
     public static final String[] TEST_CMDS_WITH_COLONS = {
-        "/donotuseinchains:donotuseinchains",
-        "/donotuseinchains:donotuseinchains donotuseinchains",
+            "/donotuseinchains:donotuseinchains",
+            "/donotuseinchains:donotuseinchains donotuseinchains",
     };
 
     // Commands to be tested which do NOT contain colons.
     // 'donotuseinchains' term is used to make it clear PLEASE DO NOT USE THIS TERM IN ANY CHAINS or it can mess
     // up the tests.
     public static final String[] TEST_CMDS_WITHOUT_COLONS = {
-        "/donotuseinchains",
-        "/donotuseinchains donotuseinchains",
+            "/donotuseinchains",
+            "/donotuseinchains donotuseinchains",
     };
 
     // Default policy to be used during these tests. ALLOW here represents a whitelist which is the usual setup.
@@ -114,17 +114,17 @@ public final class TestCmdEvaluation {
      * @return {@link Evaluation Evaluation} made with the provided parameters.
      */
     private static Evaluation testEvaluation(
-        final String cmd,
-        final boolean denyColonInFirstArg
+            final String cmd,
+            final boolean denyColonInFirstArg
     ) {
         return Evaluator.evaluate(
-            cmd,
-            TEST_CHAINS,
-            TEST_DEFAULT_POLICY,
-            denyColonInFirstArg,
-            EvalCause.CMD_EXECUTION,
-            debugLogger,
-            warningLogger
+                cmd,
+                TEST_CHAINS,
+                TEST_DEFAULT_POLICY,
+                denyColonInFirstArg,
+                EvalCause.CMD_EXECUTION,
+                debugLogger,
+                warningLogger
         );
     }
 
@@ -137,14 +137,14 @@ public final class TestCmdEvaluation {
     @Test
     public void testChainsMustStartWithSlash() {
         for (final Chain chain : TEST_CHAINS) {
-            if(chain.isRegex()) {
+            if (chain.isRegex()) {
                 continue;
             }
 
-            for(final String rule : chain.rules()) {
+            for (final String rule : chain.rules()) {
                 Assertions.assertTrue(
-                    rule.startsWith("/"),
-                    "Non-regex chain rules must start with a slash, failed on rule='" + rule + "'"
+                        rule.startsWith("/"),
+                        "Non-regex chain rules must start with a slash, failed on rule='" + rule + "'"
                 );
             }
         }
@@ -162,7 +162,7 @@ public final class TestCmdEvaluation {
             final Evaluation eval = testEvaluation(cmd, true);
             Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
             Assertions.assertEquals(eval.policy(), Policy.DENY, "Wrong policy evaluated for cmd='" +
-                cmd + "'; description='" + eval.description() + "'");
+                    cmd + "'; description='" + eval.description() + "'");
         }
     }
 
@@ -178,7 +178,7 @@ public final class TestCmdEvaluation {
             final Evaluation eval = testEvaluation(cmd, true);
             Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
             Assertions.assertEquals(eval.policy(), Policy.ALLOW, "Wrong policy evaluated for cmd='" +
-                cmd + "'; description='" + eval.description() + "'");
+                    cmd + "'; description='" + eval.description() + "'");
         }
     }
 
@@ -198,8 +198,8 @@ public final class TestCmdEvaluation {
                 Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
                 Assertions.assertTrue(eval.dueToColonInFirstArg(), "Colon in first arg expected to be cause");
                 Assertions.assertEquals(eval.policy(), Policy.DENY,
-                    "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
-                        eval.description() + "'");
+                        "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
+                                eval.description() + "'");
             }
 
             {
@@ -208,8 +208,8 @@ public final class TestCmdEvaluation {
                 Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
                 Assertions.assertFalse(eval.dueToColonInFirstArg(), "Colon in first arg unexpected to be cause");
                 Assertions.assertEquals(eval.policy(), Policy.ALLOW,
-                    "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
-                        eval.description() + "'");
+                        "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
+                                eval.description() + "'");
             }
         }
 
@@ -220,8 +220,8 @@ public final class TestCmdEvaluation {
                 Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
                 Assertions.assertFalse(eval.dueToColonInFirstArg(), "Colon in first arg unexpected to be cause");
                 Assertions.assertEquals(eval.policy(), Policy.ALLOW,
-                    "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
-                        eval.description() + "'");
+                        "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
+                                eval.description() + "'");
             }
 
             {
@@ -229,8 +229,8 @@ public final class TestCmdEvaluation {
                 Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
                 Assertions.assertFalse(eval.dueToColonInFirstArg(), "Colon in first arg unexpected to be cause");
                 Assertions.assertEquals(eval.policy(), Policy.ALLOW,
-                    "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
-                        eval.description() + "'");
+                        "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
+                                eval.description() + "'");
             }
         }
     }
@@ -269,13 +269,13 @@ public final class TestCmdEvaluation {
     @Test
     public void testDenyDefaultPolicy() {
         final Evaluation eval = Evaluator.evaluate(
-            "/donotuseinchains",
-            TEST_CHAINS,
-            Policy.DENY,
-            true,
-            EvalCause.CMD_EXECUTION,
-            debugLogger,
-            warningLogger
+                "/donotuseinchains",
+                TEST_CHAINS,
+                Policy.DENY,
+                true,
+                EvalCause.CMD_EXECUTION,
+                debugLogger,
+                warningLogger
         );
 
         Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
@@ -317,13 +317,13 @@ public final class TestCmdEvaluation {
         final String cmd = "/blocksuggestionsonly";
 
         final Function<EvalCause, Evaluation> eval = (cause) -> Evaluator.evaluate(
-            cmd,
-            TEST_CHAINS,
-            TEST_DEFAULT_POLICY,
-            true,
-            cause,
-            debugLogger,
-            warningLogger
+                cmd,
+                TEST_CHAINS,
+                TEST_DEFAULT_POLICY,
+                true,
+                cause,
+                debugLogger,
+                warningLogger
         );
 
         final Evaluation evalExecution = eval.apply(EvalCause.CMD_EXECUTION);

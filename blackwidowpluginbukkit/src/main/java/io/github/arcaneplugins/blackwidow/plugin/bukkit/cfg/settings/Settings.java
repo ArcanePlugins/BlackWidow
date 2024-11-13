@@ -37,14 +37,14 @@ public final class Settings extends YamlCfg {
     private static final int LATEST_FILE_VERSION = 2;
 
     public Settings(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         super(
-            plugin,
-            "settings.yml",
-            "settings.yml",
-            "Settings",
-            LATEST_FILE_VERSION
+                plugin,
+                "settings.yml",
+                "settings.yml",
+                "Settings",
+                LATEST_FILE_VERSION
         );
     }
 
@@ -59,12 +59,12 @@ public final class Settings extends YamlCfg {
         try {
             plugin().enabledDebugCategories().clear();
             plugin().enabledDebugCategories().addAll(
-                Objects.requireNonNullElse(
-                    root()
-                        .node("debug-categories")
-                        .getList(DebugCategory.class),
-                    Collections.emptySet()
-                )
+                    Objects.requireNonNullElse(
+                            root()
+                                    .node("debug-categories")
+                                    .getList(DebugCategory.class),
+                            Collections.emptySet()
+                    )
             );
         } catch (final ConfigurateException ex) {
             throw new RuntimeException(ex.getMessage(), ex);
