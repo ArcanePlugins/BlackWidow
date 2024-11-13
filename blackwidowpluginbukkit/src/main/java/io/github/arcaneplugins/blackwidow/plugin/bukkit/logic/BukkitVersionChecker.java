@@ -98,7 +98,7 @@ public class BukkitVersionChecker {
         final UpdateChecker updateChecker = new UpdateChecker("BlackWidow");
 
         try{
-            updateChecker.getLatestVersion(latestVersion -> {
+            final boolean result =  updateChecker.getLatestVersion(latestVersion -> {
                 //noinspection deprecation
                 final String currentVersion = plugin.getDescription().getVersion()
                         .split(" ")[0];
@@ -145,6 +145,10 @@ public class BukkitVersionChecker {
                     notifyPlayers();
                 }
             });
+
+            if (!result){
+                plugin.getLogger().warning("Error getting latest version: " + updateChecker.getErrorMessage());
+            }
         }
         catch (Exception e){
             plugin.getLogger().warning("Error getting latest version: " + e.getMessage());
