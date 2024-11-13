@@ -36,8 +36,8 @@ public final class LoadRequirementsReadyEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
 
     public LoadRequirementsReadyEvent(
-        final BlackWidow plugin,
-        final Map<String, Function<CommentedConfigurationNode, Requirement>> reqParsers
+            final BlackWidow plugin,
+            final Map<String, Function<CommentedConfigurationNode, Requirement>> reqParsers
     ) {
         this.plugin = Objects.requireNonNull(plugin, "plugin");
         this.reqParsers = Objects.requireNonNull(reqParsers, "reqParsers");

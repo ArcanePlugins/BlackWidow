@@ -36,8 +36,8 @@ public final class LoadActionsReadyEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
 
     public LoadActionsReadyEvent(
-        final BlackWidow plugin,
-        final Map<String, Function<CommentedConfigurationNode, Action>> actParsers
+            final BlackWidow plugin,
+            final Map<String, Function<CommentedConfigurationNode, Action>> actParsers
     ) {
         this.plugin = Objects.requireNonNull(plugin, "plugin");
         this.actParsers = Objects.requireNonNull(actParsers, "actParsers");

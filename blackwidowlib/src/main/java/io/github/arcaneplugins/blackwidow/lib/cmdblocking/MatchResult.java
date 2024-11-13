@@ -46,9 +46,9 @@ public final class MatchResult {
      * @since 1.0.0
      */
     public MatchResult(
-        final boolean matched,
-        final String rule,
-        final String description
+            final boolean matched,
+            final String rule,
+            final String description
     ) {
         this.matched = matched;
         this.rule = rule;

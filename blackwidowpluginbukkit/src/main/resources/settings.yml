@@ -34,8 +34,14 @@ cmd-blocking:
     execution: true
     suggestion: true
   operators-bypass-completely: true
+update-checker:
+  enabled: true
+  run-on-startup: true
+  repeat-timer-duration-mins: 60
+  log-updates: true
+  notify-players-with-permission: true
 do-not-touch:
   version:
     context: ""
-    original: 1
-    installed: 1
+    original: 2
+    installed: 2

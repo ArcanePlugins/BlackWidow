@@ -16,34 +16,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.arcaneplugins.blackwidow.plugin.bukkit.logic;
+package io.github.arcaneplugins.blackwidow.plugin.bukkit.util;
 
-import io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
+/**
+ * {@link StringUtil} contains a variety of utilities related to {@link String Java String objects}.
+ *
+ * @author lokka30
+ * @since 1.1.0
+ */
+public final class StringUtil {
 
-public abstract class Action implements LogicUnit {
-
-    private final BlackWidow plugin;
-    private final String id;
-
-    public Action(
-            final BlackWidow plugin,
-            final String id
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public static boolean isDouble(
+            @Nullable final String str
     ) {
-        this.plugin = Objects.requireNonNull(plugin, "plugin");
-        this.id = Objects.requireNonNull(id, "id");
+        if (str == null || str.isBlank()) {
+            return false;
+        }
+
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (final NumberFormatException ex) {
+            return false;
+        }
     }
-
-    public abstract void run(final Context context);
-
-    public final String id() {
-        return Objects.requireNonNull(id, "id");
-    }
-
-    protected final BlackWidow plugin() {
-        return Objects.requireNonNull(plugin, "plugin");
-    }
-
-
 }

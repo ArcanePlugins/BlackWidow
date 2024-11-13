@@ -34,41 +34,41 @@ import java.util.function.Supplier;
 public enum Translation {
 
     COMMAND_BLACKWIDOW_RELOAD_STARTED(
-        new String[]{"command", "blackwidow", "reload", "started"},
-        true,
-        List.of("%prefix%Reloading BlackWidow.")
+            new String[]{"command", "blackwidow", "reload", "started"},
+            true,
+            List.of("%prefix%Reloading BlackWidow.")
     ),
 
     COMMAND_BLACKWIDOW_RELOAD_FAILED(
-        new String[]{"command", "blackwidow", "reload", "failed"},
-        true,
-        List.of("%prefix%Reload failed! Please see your server console for more details.")
+            new String[]{"command", "blackwidow", "reload", "failed"},
+            true,
+            List.of("%prefix%Reload failed! Please see your server console for more details.")
     ),
 
     COMMAND_BLACKWIDOW_RELOAD_COMPLETE(
-        new String[]{"command", "blackwidow", "reload", "complete"},
-        true,
-        List.of("%prefix%Reload complete.")
+            new String[]{"command", "blackwidow", "reload", "complete"},
+            true,
+            List.of("%prefix%Reload complete.")
     ),
 
     COMMAND_BLACKWIDOW_VERSION(
-        new String[]{"command", "blackwidow", "version"},
-        true,
-        List.of("<color:dark_gray><st>*---*</st></color> <color:red><insert:/bw><hover:show_text:'<color:red><bold>BlackWidow</bold></color><newline><color:gray>A security solution for Minecraft.</color>'><bold>BlackWidow</bold> v%version%</hover></insert></color> <color:dark_gray><st>*---*</st></color><newline><color:gray>A security solution for Minecraft.</color><newline><color:gray>From <i><click:open_url:https://github.com/arcaneplugins>ArcanePlugins</click></i> by <color:red>%authors%</color>.</color>")
+            new String[]{"command", "blackwidow", "version"},
+            true,
+            List.of("<color:dark_gray><st>*---*</st></color> <color:red><insert:/bw><hover:show_text:'<color:red><bold>BlackWidow</bold></color><newline><color:gray>A security solution for Minecraft.</color>'><bold>BlackWidow</bold> v%version%</hover></insert></color> <color:dark_gray><st>*---*</st></color><newline><color:gray>A security solution for Minecraft.</color><newline><color:gray>From <i><click:open_url:https://github.com/arcaneplugins>ArcanePlugins</click></i> by <color:red>%authors%</color>.</color>")
     ),
 
     PREFIX(
-        new String[]{"prefix"},
-        false,
-        "<color:red><bold><insert:/bw><hover:show_text:'<color:red><bold>BlackWidow</bold></color>" +
-            "<newline><color:gray>A security solution for Minecraft.</color>'>BW: </hover></insert></bold></color> " +
-            "<color:gray>"
+            new String[]{"prefix"},
+            false,
+            "<color:red><bold><insert:/bw><hover:show_text:'<color:red><bold>BlackWidow</bold></color>" +
+                    "<newline><color:gray>A security solution for Minecraft.</color>'>BW: </hover></insert></bold></color> " +
+                    "<color:gray>"
     ),
 
     LIST_DELIMITER(
-        new String[]{"list-delimeter"},
-        false,
-        "<color:gray>, </color:gray>"
+            new String[]{"list-delimeter"},
+            false,
+            "<color:gray>, </color:gray>"
     );
 
     private final String[] nodePath;
@@ -76,9 +76,9 @@ public enum Translation {
     private final Object defValue;
 
     Translation(
-        final String[] nodePath,
-        final boolean isList,
-        final Object defValue
+            final String[] nodePath,
+            final boolean isList,
+            final Object defValue
     ) {
         this.nodePath = nodePath;
         this.isList = isList;
@@ -98,7 +98,7 @@ public enum Translation {
     }
 
     public String strSingle(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         if (isList()) {
             throw new IllegalStateException("Translation is list type, but called `str` instead of `strList`");
@@ -108,9 +108,9 @@ public enum Translation {
     }
 
     public static String placeholerify(
-        final BlackWidow plugin,
-        final String msg,
-        final Map<String, Supplier<String>> placeholders
+            final BlackWidow plugin,
+            final String msg,
+            final Map<String, Supplier<String>> placeholders
     ) {
         // temp var to hold latest placeholderified version of `msg`
         String formattedMsg = msg;
@@ -134,31 +134,31 @@ public enum Translation {
     }
 
     public static String joinSeparatedStrings(
-        final BlackWidow plugin,
-        final Collection<String> strings
+            final BlackWidow plugin,
+            final Collection<String> strings
     ) {
         return String.join(
-            LIST_DELIMITER.strSingle(plugin),
-            strings
+                LIST_DELIMITER.strSingle(plugin),
+                strings
         );
     }
 
     public static Component formatify(
-        final BlackWidow plugin,
-        final String msg,
-        final Map<String, Supplier<String>> placeholders
+            final BlackWidow plugin,
+            final String msg,
+            final Map<String, Supplier<String>> placeholders
     ) {
         return plugin.miniMessage().deserialize(
-            placeholerify(
-                plugin,
-                msg,
-                placeholders
-            )
+                placeholerify(
+                        plugin,
+                        msg,
+                        placeholders
+                )
         );
     }
 
     public final List<String> strList(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         if (!isList()) {
             throw new IllegalStateException("Translation is not list type, but called `strList` instead of `str`");
@@ -167,8 +167,8 @@ public enum Translation {
         try {
             //noinspection unchecked
             return Objects.requireNonNullElse(
-                plugin.translations().root().node((Object[]) nodePath()).getList(String.class),
-                (List<String>) defValue()
+                    plugin.translations().root().node((Object[]) nodePath()).getList(String.class),
+                    (List<String>) defValue()
             );
         } catch (final ConfigurateException ex) {
             throw new RuntimeException(ex.getMessage(), ex);
@@ -176,9 +176,9 @@ public enum Translation {
     }
 
     public final void sendTo(
-        final BlackWidow plugin,
-        final Audience audience,
-        final Map<String, Supplier<String>> placeholders
+            final BlackWidow plugin,
+            final Audience audience,
+            final Map<String, Supplier<String>> placeholders
     ) {
         Objects.requireNonNull(plugin, "plugin");
         Objects.requireNonNull(audience, "audience");
@@ -193,9 +193,9 @@ public enum Translation {
     }
 
     public final void sendTo(
-        final BlackWidow plugin,
-        final CommandSender sender,
-        final Map<String, Supplier<String>> placeholders
+            final BlackWidow plugin,
+            final CommandSender sender,
+            final Map<String, Supplier<String>> placeholders
     ) {
         Objects.requireNonNull(plugin, "plugin");
         Objects.requireNonNull(sender, "sender");
@@ -204,9 +204,9 @@ public enum Translation {
 
     @SuppressWarnings("unused")
     public final void sendTo(
-        final BlackWidow plugin,
-        final Player player,
-        final Map<String, Supplier<String>> placeholders
+            final BlackWidow plugin,
+            final Player player,
+            final Map<String, Supplier<String>> placeholders
     ) {
         Objects.requireNonNull(plugin, "plugin");
         Objects.requireNonNull(player, "player");

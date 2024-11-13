@@ -53,11 +53,11 @@ public final class Evaluation {
      * @since 1.0.0
      */
     public Evaluation(
-        final String command,
-        final Policy policy,
-        final Chain chain,
-        final String rule,
-        final String description
+            final String command,
+            final Policy policy,
+            final Chain chain,
+            final String rule,
+            final String description
     ) {
         this.command = Objects.requireNonNull(command, "command");
         this.policy = Objects.requireNonNull(policy, "policy");

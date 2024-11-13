@@ -29,9 +29,9 @@ public abstract class Requirement implements LogicUnit {
     private final boolean inverted;
 
     public Requirement(
-        final BlackWidow plugin,
-        final String id,
-        final boolean inverted
+            final BlackWidow plugin,
+            final String id,
+            final boolean inverted
     ) {
         this.plugin = plugin;
         this.id = id;

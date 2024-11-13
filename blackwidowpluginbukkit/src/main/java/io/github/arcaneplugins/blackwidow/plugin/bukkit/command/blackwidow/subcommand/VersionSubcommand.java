@@ -30,7 +30,7 @@ public final class VersionSubcommand extends CommandAPICommand {
     private final BlackWidow plugin;
 
     public VersionSubcommand(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         super("version");
         this.plugin = plugin;
@@ -41,13 +41,13 @@ public final class VersionSubcommand extends CommandAPICommand {
         executes((sender, args) -> {
             //noinspection deprecation
             Translation.COMMAND_BLACKWIDOW_VERSION.sendTo(
-                plugin(),
-                sender,
-                Map.of(
-                    "version", () -> plugin().getDescription().getVersion(),
-                    "authors", () -> Translation
-                        .joinSeparatedStrings(plugin(), plugin().getDescription().getAuthors())
-                )
+                    plugin(),
+                    sender,
+                    Map.of(
+                            "version", () -> plugin().getDescription().getVersion(),
+                            "authors", () -> Translation
+                                    .joinSeparatedStrings(plugin(), plugin().getDescription().getAuthors())
+                    )
             );
         });
     }

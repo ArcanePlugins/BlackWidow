@@ -32,22 +32,22 @@ public final class HasPermissionRequirement extends Requirement {
     private final String permission;
 
     public HasPermissionRequirement(
-        final BlackWidow plugin,
-        final String permission,
-        final boolean inverted
+            final BlackWidow plugin,
+            final String permission,
+            final boolean inverted
     ) {
         super(plugin, ID, inverted);
         this.permission = Objects.requireNonNull(permission, "permission");
     }
 
     public HasPermissionRequirement(
-        final BlackWidow plugin,
-        final CommentedConfigurationNode node
+            final BlackWidow plugin,
+            final CommentedConfigurationNode node
     ) {
         this(
-            plugin,
-            Objects.requireNonNull(node.node("permission").getString(), "permission"),
-            node.node("inverted").getBoolean(false)
+                plugin,
+                Objects.requireNonNull(node.node("permission").getString(), "permission"),
+                node.node("inverted").getBoolean(false)
         );
     }
 
@@ -60,8 +60,8 @@ public final class HasPermissionRequirement extends Requirement {
     @Override
     public boolean validateImpl(final Context context) {
         return Objects.requireNonNullElse(
-            context.player(false),
-            context.commandSender(false)
+                context.player(false),
+                context.commandSender(false)
         ).hasPermission(permission());
     }
 

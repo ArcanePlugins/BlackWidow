@@ -34,7 +34,7 @@ public final class Context {
     private CommandSender sender;
 
     public Context(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         this.plugin = Objects.requireNonNull(plugin, "plugin");
     }
@@ -77,7 +77,7 @@ public final class Context {
         private final String message;
 
         public ContextException(
-            final String message
+                final String message
         ) {
             this.message = message;
         }

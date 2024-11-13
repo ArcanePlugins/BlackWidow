@@ -30,7 +30,7 @@ public final class ReloadSubcommand extends CommandAPICommand {
     private final BlackWidow plugin;
 
     public ReloadSubcommand(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         super("reload");
         this.plugin = plugin;

@@ -97,7 +97,7 @@ public final class CmdBlocker {
         final Player player = context.player(false);
         if (player != null && player.isOp() && operatorsBypassCompletely()) {
             return new Evaluation(cmd, Policy.ALLOW, null, null, "Operators configured to bypass command blocking")
-                .withDueToOperatorsBypassCmdBlocking(true);
+                    .withDueToOperatorsBypassCmdBlocking(true);
         }
 
         // copy chains into a new LinkedHashSet, remove chains not applicable to context.

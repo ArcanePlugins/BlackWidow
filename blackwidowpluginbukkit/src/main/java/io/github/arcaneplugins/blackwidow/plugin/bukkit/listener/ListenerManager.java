@@ -21,11 +21,13 @@ package io.github.arcaneplugins.blackwidow.plugin.bukkit.listener;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.listener.bukkit.PlayerCommandPreprocessListener;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.listener.bukkit.PlayerCommandSendListener;
+import io.github.arcaneplugins.blackwidow.plugin.bukkit.listener.bukkit.PlayerJoinListener;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.listener.paper.AsyncPlayerCommandSendListener;
 import org.bukkit.event.Listener;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 public final class ListenerManager {
 
@@ -33,20 +35,21 @@ public final class ListenerManager {
     private final Collection<Listener> listeners = new LinkedHashSet<>();
 
     public ListenerManager(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         this.plugin = plugin;
     }
 
     private void constructListeners() {
-        listeners().add(
-            new PlayerCommandPreprocessListener(plugin())
-        );
+        listeners().addAll(List.of(
+                new PlayerCommandPreprocessListener(plugin()),
+                new PlayerJoinListener(plugin())
+        ));
 
         listeners().add(
-            plugin().usingPaper() && plugin().usePaperFeatures() ?
-                new AsyncPlayerCommandSendListener(plugin()) :
-                new PlayerCommandSendListener(plugin())
+                plugin().usingPaper() && plugin().usePaperFeatures() ?
+                        new AsyncPlayerCommandSendListener(plugin()) :
+                        new PlayerCommandSendListener(plugin())
         );
     }
 

@@ -35,7 +35,7 @@ public final class PlayerCommandPreprocessListener implements Listener {
     private final BlackWidow plugin;
 
     public PlayerCommandPreprocessListener(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         this.plugin = plugin;
     }
@@ -50,13 +50,13 @@ public final class PlayerCommandPreprocessListener implements Listener {
         final Player player = event.getPlayer();
 
         final Context context = new Context(plugin())
-            .withPlayer(player)
-            .withCommands(List.of(event.getMessage()));
+                .withPlayer(player)
+                .withCommands(List.of(event.getMessage()));
 
         if (plugin().cmdBlocker().filterCmdExecution()) {
             final Evaluation eval = plugin()
-                .cmdBlocker()
-                .evalAndProcess(context, event.getMessage(), true, EvalCause.CMD_EXECUTION);
+                    .cmdBlocker()
+                    .evalAndProcess(context, event.getMessage(), true, EvalCause.CMD_EXECUTION);
 
             switch (eval.policy()) {
                 case ALLOW:
@@ -69,7 +69,7 @@ public final class PlayerCommandPreprocessListener implements Listener {
                 case null, default:
                     event.setCancelled(true);
                     throw new IllegalStateException("Unexpected policy '" + eval.policy() + "', prevented " +
-                        "command execution for best-practice security purposes.");
+                            "command execution for best-practice security purposes.");
             }
 
             // TODO Debug log the evaluation's description.
