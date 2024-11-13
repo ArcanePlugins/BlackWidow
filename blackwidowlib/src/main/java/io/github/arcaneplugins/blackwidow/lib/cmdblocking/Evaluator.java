@@ -29,13 +29,13 @@ public class Evaluator {
     public static final AtomicBoolean SUPPRESS_EXCEPTION_MESSAGES = new AtomicBoolean(false);
 
     public static Evaluation evaluate(
-        final String cmd,
-        final Collection<? extends Chain> chains,
-        final Policy defaultPolicy,
-        final boolean denyColonInFirstArg,
-        final EvalCause cause,
-        final Consumer<Supplier<String>> debugLogger,
-        final Consumer<Supplier<String>> warningLogger
+            final String cmd,
+            final Collection<? extends Chain> chains,
+            final Policy defaultPolicy,
+            final boolean denyColonInFirstArg,
+            final EvalCause cause,
+            final Consumer<Supplier<String>> debugLogger,
+            final Consumer<Supplier<String>> warningLogger
     ) {
         try {
             Objects.requireNonNull(cmd, "cmd");
@@ -57,11 +57,11 @@ public class Evaluator {
                 final MatchResult res = chain.matches(cmd, cause, debugLogger);
                 if (res.matched()) {
                     return new Evaluation(
-                        cmd,
-                        chain.policy(),
-                        chain,
-                        res.rule(),
-                        "in chain #" + i + " (id='" + chain.id() + "'; " + res.description()
+                            cmd,
+                            chain.policy(),
+                            chain,
+                            res.rule(),
+                            "in chain #" + i + " (id='" + chain.id() + "'; " + res.description()
                     );
                 }
                 i++;
@@ -69,33 +69,33 @@ public class Evaluator {
 
             if (denyColonInFirstArg && Chain.transformToArgs(cmd)[0].contains(":")) {
                 return new Evaluation(cmd, Policy.DENY, null, null, "colon found in first arg")
-                    .withDueToColonInFirstArg(true);
+                        .withDueToColonInFirstArg(true);
             }
         } catch (Exception ex) {
             if (!SUPPRESS_EXCEPTION_MESSAGES.get()) {
                 warningLogger.accept(() ->
-                    "An exception was caught whilst evaluating cmd '" + cmd + "': '" + ex.getClass().getSimpleName() +
-                        "'. For best security practice, this cmd will be forcefully denied due to the error. " +
-                        "Message: '" + ex.getMessage() + "'; Stack trace:\n"
+                        "An exception was caught whilst evaluating cmd '" + cmd + "': '" + ex.getClass().getSimpleName() +
+                                "'. For best security practice, this cmd will be forcefully denied due to the error. " +
+                                "Message: '" + ex.getMessage() + "'; Stack trace:\n"
                 );
                 //noinspection CallToPrintStackTrace
                 ex.printStackTrace();
             }
             return new Evaluation(
-                cmd == null ? "/??? NULL COMMAND ???" : cmd,
-                Policy.DENY,
-                null,
-                null,
-                "exception caught, denying for security"
+                    cmd == null ? "/??? NULL COMMAND ???" : cmd,
+                    Policy.DENY,
+                    null,
+                    null,
+                    "exception caught, denying for security"
             ).withDueToException(true);
         }
 
         return new Evaluation(
-            cmd,
-            defaultPolicy,
-            null,
-            null,
-            "default policy, no chains matched"
+                cmd,
+                defaultPolicy,
+                null,
+                null,
+                "default policy, no chains matched"
         ).withDueToDefaultPolicy(true);
     }
 }

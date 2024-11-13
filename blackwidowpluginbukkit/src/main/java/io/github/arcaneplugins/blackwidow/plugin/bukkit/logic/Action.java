@@ -28,8 +28,8 @@ public abstract class Action implements LogicUnit {
     private final String id;
 
     public Action(
-        final BlackWidow plugin,
-        final String id
+            final BlackWidow plugin,
+            final String id
     ) {
         this.plugin = Objects.requireNonNull(plugin, "plugin");
         this.id = Objects.requireNonNull(id, "id");
