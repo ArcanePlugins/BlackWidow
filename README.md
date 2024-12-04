@@ -87,7 +87,7 @@ Please reference the [Requirements](https://github.com/ArcanePlugins/BlackWidow/
 
 The best-case scenario to run BlackWidow is:
 
-- [x] **Minecraft 1.21.3** or newer
+- [x] **Minecraft 1.21** or newer
 - [x] **PaperMC** or **SpigotMC** server software
 - [x] **Java 21** or newer
 
