@@ -56,13 +56,12 @@ public final class CommandManager {
 
     public void disable() {
         plugin().getLogger().info("Disabling commands.");
-        CommandAPI.unregister("blackwidow", true);
-        CommandAPI.onDisable();
         CommandAPI.getRegisteredCommands()
             .stream()
             .map(RegisteredCommand::commandName)
             .iterator()
             .forEachRemaining(CommandAPI::unregister);
+        CommandAPI.onDisable();
     }
 
     private BlackWidow plugin() {
