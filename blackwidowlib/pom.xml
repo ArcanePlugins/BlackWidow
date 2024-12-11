@@ -24,11 +24,11 @@
     <parent>
         <groupId>io.github.arcaneplugins.blackwidow</groupId>
         <artifactId>blackwidow</artifactId>
-        <version>1.1.0</version>
+        <version>1.1.1</version>
     </parent>
 
     <artifactId>blackwidowlib</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <build>
         <plugins>
             <plugin>
