@@ -33,7 +33,7 @@ public final class PlayerCommandSendListener implements Listener {
     private final BlackWidow plugin;
 
     public PlayerCommandSendListener(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         this.plugin = plugin;
     }
@@ -48,19 +48,19 @@ public final class PlayerCommandSendListener implements Listener {
         final Player player = event.getPlayer();
 
         final Context context = new Context(plugin())
-            .withPlayer(player)
-            .withCommands(event.getCommands().stream().map(cmd -> "/" + cmd).toList());
+                .withPlayer(player)
+                .withCommands(event.getCommands().stream().map(cmd -> "/" + cmd).toList());
 
         if (plugin().cmdBlocker().filterCmdSuggestion()) {
             event.getCommands().removeIf(cmd -> {
                 final Evaluation eval = plugin()
-                    .cmdBlocker()
-                    .evalAndProcess(context, "/" + cmd, false, EvalCause.CMD_SUGGESTION);
+                        .cmdBlocker()
+                        .evalAndProcess(context, "/" + cmd, false, EvalCause.CMD_SUGGESTION);
 
                 if (eval.policy() == null || (eval.policy() != Policy.ALLOW && eval.policy() != Policy.DENY)) {
                     event.getCommands().clear();
                     throw new IllegalStateException("Unexpected policy '" + eval.policy() + "', prevented " +
-                        "all command suggestions for best-practice security purposes.");
+                            "all command suggestions for best-practice security purposes.");
                 }
 
                 // TODO Debug log the evaluation's description.

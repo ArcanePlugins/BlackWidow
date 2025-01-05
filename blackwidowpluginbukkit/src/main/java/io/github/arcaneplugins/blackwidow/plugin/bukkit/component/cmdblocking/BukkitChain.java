@@ -52,15 +52,15 @@ public final class BukkitChain extends Chain {
      * @since 1.0.0
      */
     public BukkitChain(
-        final BlackWidow plugin,
-        final String id,
-        final boolean enabled,
-        final Policy policy,
-        final Collection<String> rules,
-        final boolean isRegex,
-        final Collection<EvalCause> causeFilters,
-        final Collection<Requirement> requirements,
-        final Collection<Action> actions
+            final BlackWidow plugin,
+            final String id,
+            final boolean enabled,
+            final Policy policy,
+            final Collection<String> rules,
+            final boolean isRegex,
+            final Collection<EvalCause> causeFilters,
+            final Collection<Requirement> requirements,
+            final Collection<Action> actions
     ) {
         super(id, enabled, policy, rules, isRegex, causeFilters);
         this.plugin = Objects.requireNonNull(plugin, "plugin");
@@ -69,19 +69,19 @@ public final class BukkitChain extends Chain {
     }
 
     public BukkitChain(
-        final BlackWidow plugin,
-        final CommentedConfigurationNode node
+            final BlackWidow plugin,
+            final CommentedConfigurationNode node
     ) {
         this(
-            Objects.requireNonNull(plugin, "plugin"),
-            node.node("id").getString(),
-            node.node("enabled").getBoolean(true),
-            parsePolicyAtNode(node.node("policy")),
-            parseStringListAtNode(node.node("rules")),
-            node.node("regex").getBoolean(false),
-            parseEvalCauseListAtNode(node.node("cause-filters")),
-            plugin.logicManager().parseRequirementsInChildrenOfNode(node.node("requirements")),
-            plugin.logicManager().parseActionsInChildrenOfNode(node.node("actions"))
+                Objects.requireNonNull(plugin, "plugin"),
+                node.node("id").getString(),
+                node.node("enabled").getBoolean(true),
+                parsePolicyAtNode(node.node("policy")),
+                parseStringListAtNode(node.node("rules")),
+                node.node("regex").getBoolean(false),
+                parseEvalCauseListAtNode(node.node("cause-filters")),
+                plugin.logicManager().parseRequirementsInChildrenOfNode(node.node("requirements")),
+                plugin.logicManager().parseActionsInChildrenOfNode(node.node("actions"))
         );
     }
 
@@ -91,7 +91,7 @@ public final class BukkitChain extends Chain {
     }
 
     private static Policy parsePolicyAtNode(
-        final CommentedConfigurationNode node
+            final CommentedConfigurationNode node
     ) {
         try {
             return node.get(Policy.class, Policy.DENY);
@@ -101,7 +101,7 @@ public final class BukkitChain extends Chain {
     }
 
     private static List<String> parseStringListAtNode(
-        final CommentedConfigurationNode node
+            final CommentedConfigurationNode node
     ) {
         try {
             return node.getList(String.class);
@@ -119,7 +119,7 @@ public final class BukkitChain extends Chain {
     }
 
     public static Collection<EvalCause> parseEvalCauseListAtNode(
-        final CommentedConfigurationNode node
+            final CommentedConfigurationNode node
     ) {
 
         Objects.requireNonNull(node, "node");

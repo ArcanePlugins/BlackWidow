@@ -21,7 +21,9 @@ package io.github.arcaneplugins.blackwidow.plugin.bukkit.cfg.settings;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.cfg.YamlCfg;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.DebugCategory;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -32,17 +34,17 @@ public final class Settings extends YamlCfg {
     // REMEMBER TO UPDATE THE METHOD BELOW 'upgradeFile' IF THIS IS INCREMENTED.
     // ALSO REMEMBER TO UPDATE THE FILE ITSELF - BOTH THE 'original' AND 'installed' VALUES SHOULD MATCH THIS.
     // <<< !!! WARNING !!! NOTICE THIS MESSAGE !!! >>>
-    private static final int LATEST_FILE_VERSION = 1;
+    private static final int LATEST_FILE_VERSION = 2;
 
     public Settings(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         super(
-            plugin,
-            "settings.yml",
-            "settings.yml",
-            "Settings",
-            LATEST_FILE_VERSION
+                plugin,
+                "settings.yml",
+                "settings.yml",
+                "Settings",
+                LATEST_FILE_VERSION
         );
     }
 
@@ -57,12 +59,12 @@ public final class Settings extends YamlCfg {
         try {
             plugin().enabledDebugCategories().clear();
             plugin().enabledDebugCategories().addAll(
-                Objects.requireNonNullElse(
-                    root()
-                        .node("debug-categories")
-                        .getList(DebugCategory.class),
-                    Collections.emptySet()
-                )
+                    Objects.requireNonNullElse(
+                            root()
+                                    .node("debug-categories")
+                                    .getList(DebugCategory.class),
+                            Collections.emptySet()
+                    )
             );
         } catch (final ConfigurateException ex) {
             throw new RuntimeException(ex.getMessage(), ex);
@@ -81,10 +83,18 @@ public final class Settings extends YamlCfg {
         //noinspection SwitchStatementWithTooFewBranches
         switch (installedVer) {
             case 1 -> {
-                // Do nothing.
+                final CommentedConfigurationNode updChkNode = root().node("update-checker");
+                try {
+                    updChkNode.node("enabled").set(true);
+                    updChkNode.node("run-on-startup").set(true);
+                    updChkNode.node("repeat-timer-duration-mins").set(60);
+                    updChkNode.node("log-updates").set(true);
+                    updChkNode.node("notify-players-with-permission").set(true);
 
-                //noinspection UnnecessaryBreak
-                break;
+                    root().node("do-not-touch", "version", "installed").set(2);
+                } catch (SerializationException e) {
+                    plugin().getLogger().warning("");
+                }
             }
             default -> throw new IllegalArgumentException("No upgrade logic defined for file version v" + installedVer);
         }

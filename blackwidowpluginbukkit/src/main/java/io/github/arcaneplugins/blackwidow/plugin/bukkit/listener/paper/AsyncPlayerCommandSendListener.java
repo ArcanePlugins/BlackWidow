@@ -33,19 +33,19 @@ public final class AsyncPlayerCommandSendListener implements Listener {
     private final BlackWidow plugin;
 
     public AsyncPlayerCommandSendListener(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         this.plugin = plugin;
     }
 
     @EventHandler
     public void handle(
-        final AsyncPlayerSendCommandsEvent<? extends CommandSourceStack> event
+            final AsyncPlayerSendCommandsEvent<? extends CommandSourceStack> event
     ) {
         // Event Javadocs:
         // https://jd.papermc.io/paper/1.21/com/destroystokyo/paper/event/brigadier/AsyncPlayerSendCommandsEvent.html
 
-        if(!event.isAsynchronous() && !event.hasFiredAsync()) {
+        if (!event.isAsynchronous() && !event.hasFiredAsync()) {
             // as per paper API docs, this event can fire twice, once async and once sync.
             // let's make sure we only handle the async scenario.
             // OR, if the event will not be fired async, then handle it anyways.
@@ -58,9 +58,9 @@ public final class AsyncPlayerCommandSendListener implements Listener {
         //TODO Implement for Paper
 
         plugin().debugLog(
-            DebugCategory.ASYNC_PLAYER_COMMAND_SEND_LISTENER,
-            () -> "AsyncPlayerCommandSendListener{player=" + player.getName() + ", commandNode.toString=" +
-                commandNode + "};"
+                DebugCategory.ASYNC_PLAYER_COMMAND_SEND_LISTENER,
+                () -> "AsyncPlayerCommandSendListener{player=" + player.getName() + ", commandNode.toString=" +
+                        commandNode + "};"
         );
     }
 

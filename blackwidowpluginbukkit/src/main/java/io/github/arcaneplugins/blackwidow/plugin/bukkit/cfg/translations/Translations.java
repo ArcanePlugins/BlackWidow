@@ -36,14 +36,14 @@ public final class Translations extends YamlCfg {
      * @since 1.0.0
      */
     public Translations(
-        final BlackWidow plugin
+            final BlackWidow plugin
     ) {
         super(
-            plugin,
-            "translations.yml",
-            "translations.yml",
-            "Translations",
-            LATEST_FILE_VERSION
+                plugin,
+                "translations.yml",
+                "translations.yml",
+                "Translations",
+                LATEST_FILE_VERSION
         );
     }
 

@@ -32,22 +32,22 @@ public final class InWorldRequirement extends Requirement {
     private final String worldName;
 
     public InWorldRequirement(
-        final BlackWidow plugin,
-        final String worldName,
-        final boolean inverted
+            final BlackWidow plugin,
+            final String worldName,
+            final boolean inverted
     ) {
         super(plugin, ID, inverted);
         this.worldName = Objects.requireNonNull(worldName, "worldName");
     }
 
     public InWorldRequirement(
-        final BlackWidow plugin,
-        final CommentedConfigurationNode node
+            final BlackWidow plugin,
+            final CommentedConfigurationNode node
     ) {
         this(
-            plugin,
-            Objects.requireNonNull(node.node("world-name").getString(), "worldName"),
-            node.node("inverted").getBoolean(false)
+                plugin,
+                Objects.requireNonNull(node.node("world-name").getString(), "worldName"),
+                node.node("inverted").getBoolean(false)
         );
     }
 

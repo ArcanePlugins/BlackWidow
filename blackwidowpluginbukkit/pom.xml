@@ -100,7 +100,8 @@
                 <version>3.6.0</version>
                 <executions>
                     <execution>
-                        <phase>package</phase><goals>
+                        <phase>package</phase>
+                        <goals>
                             <goal>shade</goal>
                         </goals>
                         <configuration>

@@ -40,11 +40,11 @@ public abstract class YamlCfg {
     private CommentedConfigurationNode root;
 
     public YamlCfg(
-        final BlackWidow plugin,
-        final String filePathStr,
-        final String fileName,
-        final String description,
-        final int latestFileVersion
+            final BlackWidow plugin,
+            final String filePathStr,
+            final String fileName,
+            final String description,
+            final int latestFileVersion
     ) {
         this.plugin = Objects.requireNonNull(plugin, "plugin");
         this.filePathStr = Objects.requireNonNull(filePathStr, "filePathStr");
@@ -67,10 +67,10 @@ public abstract class YamlCfg {
         }
 
         this.loader = YamlConfigurationLoader.builder()
-            .path(filePath())
-            .indent(2)
-            .nodeStyle(NodeStyle.BLOCK)
-            .build();
+                .path(filePath())
+                .indent(2)
+                .nodeStyle(NodeStyle.BLOCK)
+                .build();
     }
 
     public final void load() {
@@ -83,22 +83,30 @@ public abstract class YamlCfg {
             final int latestVer = latestFileVersion();
             if (installedVer <= 0) {
                 throw new IllegalArgumentException("Config '" + fileName() + "' has an installed file version below " +
-                    "or equal to 0, indicating it has almost certainly been manually tampered with. Please address " +
-                    "this issue ASAP, as a manually-adjusted file version can cause instability.");
+                        "or equal to 0, indicating it has almost certainly been manually tampered with. Please address " +
+                        "this issue ASAP, as a manually-adjusted file version can cause instability.");
             }
             if (installedVer < latestVer) {
+                int lastVersion = installedFileVersion();
                 plugin().getLogger().info("Config '" + fileName() + "' is outdated, automatically upgrading.");
                 while (installedVer < latestFileVersion()) {
                     plugin().getLogger().info("Upgrading '" + fileName() + "' from v" +
-                        installedVer + " to v" + (installedVer + 1) + ".");
+                            installedVer + " to v" + (installedVer + 1) + ".");
                     upgradeFile();
                     write();
                     installedVer = installedFileVersion();
+                    if (installedVer == lastVersion) {
+                        // prevent potential endless loop
+                        plugin().getLogger().warning("There was an error upgrading the file version, " +
+                                "the version number was not incremented");
+                        break;
+                    }
+                    lastVersion = installedVer;
                 }
             } else if (installedVer > latestVer) {
                 plugin().getLogger().warning("Config '" + fileName() + "' apparently has version '" + installedVer +
-                    "' but the latest is '" + latestVer + "'. Was the file version manually tampered with, or used " +
-                    "on a newer version of the plugin? Please address ASAP as this may cause instability.");
+                        "' but the latest is '" + latestVer + "'. Was the file version manually tampered with, or used " +
+                        "on a newer version of the plugin? Please address ASAP as this may cause instability.");
             }
 
             // lastly, set 'context' metadata if not already present
@@ -109,8 +117,8 @@ public abstract class YamlCfg {
 
                 //noinspection deprecation,UnstableApiUsage
                 final String version = plugin().usePaperFeatures() ?
-                    plugin().getPluginMeta().getVersion() :
-                    plugin().getDescription().getVersion();
+                        plugin().getPluginMeta().getVersion() :
+                        plugin().getDescription().getVersion();
 
                 node.set(plugin().getName() + " " + version);
 
