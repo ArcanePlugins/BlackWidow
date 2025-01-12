@@ -48,10 +48,21 @@ public final class PlayerCommandPreprocessListener implements Listener {
         }
 
         final Player player = event.getPlayer();
+        final String msg = event.getMessage();
 
+        /*
+        BlackWidow will add a starting slash to the command if missing since Bukkit doesn't follow its own
+        API in adding a starting slash to commands that are executed through the API itself rather than in-game.
+        For example, if your plugin calls Player#performCommand for `version blackwidow`, Bukkit won't add the
+        starting slash to PlayerCommandPreprocessEvent#getMessage. Super cool, not!
+
+        This band-aid is kind of unsafe especially if server owners want BlackWidow to process WorldEdit's
+        double-slashed commands correctly in this specific use case, but our hands are tied from the server
+        software, I guess.
+         */
         final Context context = new Context(plugin())
             .withPlayer(player)
-            .withCommands(List.of(event.getMessage()));
+            .withCommands(List.of(msg.startsWith("/") ? msg : '/' + msg));
 
         if (plugin().cmdBlocker().filterCmdExecution()) {
             final Evaluation eval = plugin()
