@@ -49,6 +49,7 @@ public final class PlayerCommandPreprocessListener implements Listener {
 
         final Player player = event.getPlayer();
         final String msg = event.getMessage();
+        final String msgWithSlash = msg.startsWith("/") ? msg : '/' + msg;
 
         /*
         BlackWidow will add a starting slash to the command if missing since Bukkit doesn't follow its own
@@ -62,12 +63,12 @@ public final class PlayerCommandPreprocessListener implements Listener {
          */
         final Context context = new Context(plugin())
             .withPlayer(player)
-            .withCommands(List.of(msg.startsWith("/") ? msg : '/' + msg));
+            .withCommands(List.of(msgWithSlash));
 
         if (plugin().cmdBlocker().filterCmdExecution()) {
             final Evaluation eval = plugin()
                 .cmdBlocker()
-                .evalAndProcess(context, event.getMessage(), true, EvalCause.CMD_EXECUTION);
+                .evalAndProcess(context, msgWithSlash, true, EvalCause.CMD_EXECUTION);
 
             switch (eval.policy()) {
                 case ALLOW:
