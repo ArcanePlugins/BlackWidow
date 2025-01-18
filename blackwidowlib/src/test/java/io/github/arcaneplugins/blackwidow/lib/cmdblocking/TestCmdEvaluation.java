@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -148,6 +149,77 @@ public final class TestCmdEvaluation {
                 );
             }
         }
+    }
+
+    /**
+     * Ensures wildcard base command rules detect all base commands.
+     *
+     * @author lokka30
+     * @since 1.1.5
+     */
+    @Test
+    public void testWildcardBaseCmd() {
+        final BiFunction<String, Policy, Boolean> test = (cmd, policy) -> {
+            final Evaluation eval = Evaluator.evaluate(
+                    "/hello",
+                    Collections.singletonList(new Chain(
+                            "wildcard-base-cmd",
+                            true,
+                            Policy.DENY,
+                            Collections.singletonList("/*"),
+                            false,
+                            EvalCause.setValues()
+                    )),
+                    Policy.ALLOW,
+                    false,
+                    EvalCause.CMD_EXECUTION,
+                    debugLogger,
+                    warningLogger
+            );
+
+            return eval.policy() == policy && !eval.dueToException();
+        };
+
+        Assertions.assertTrue(test.apply("/hello", Policy.DENY), "failed wildcard base cmd match");
+        Assertions.assertTrue(test.apply("/something abc", Policy.DENY), "failed wildcard base cmd match with an argument");
+    }
+
+    /**
+     * Ensures wildcard argument command rules detect all command arguments.
+     *
+     * @author lokka30
+     * @since 1.1.5
+     */
+    @Test
+    public void testWildcardArgs() {
+        final BiFunction<String, Policy, Boolean> test = (cmd, policy) -> {
+            final Evaluation eval = Evaluator.evaluate(
+                    cmd,
+                    Collections.singletonList(new Chain(
+                            "wildcard-arg-cmd",
+                            true,
+                            policy,
+                            Collections.singletonList("/hello * world *"),
+                            false,
+                            EvalCause.setValues()
+                    )),
+                    Policy.ALLOW,
+                    false,
+                    EvalCause.CMD_EXECUTION,
+                    debugLogger,
+                    warningLogger
+            );
+
+            return eval.policy() == policy && !eval.dueToException();
+        };
+
+        Assertions.assertTrue(test.apply("/hello something world anything123", Policy.DENY));
+        Assertions.assertTrue(test.apply("/hello another world thing withmorestuff at the end", Policy.DENY));
+        Assertions.assertTrue(test.apply("/hello * world *", Policy.DENY));
+        Assertions.assertTrue(test.apply("/hello * world * hasmorestuff", Policy.DENY));
+
+        Assertions.assertTrue(test.apply("/nothello a world a", Policy.ALLOW));
+        Assertions.assertTrue(test.apply("/hello something notworld anotherthinghere", Policy.ALLOW));
     }
 
     /**

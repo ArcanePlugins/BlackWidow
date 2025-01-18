@@ -27,7 +27,7 @@ import java.util.Objects;
 
 public final class HasPermissionRequirement extends Requirement {
 
-    public static final String ID = "has-perission";
+    public static final String ID = "has-permission";
 
     private final String permission;
 
