@@ -51,7 +51,8 @@ public final class TestCmdEvaluation {
         new Chain("6", true, Policy.ALLOW, Collections.singletonList("^(/heywhats(up)?(?:$|\\W)cool(beans)?(?:$|\\W).*)"), true, EvalCause.setValues()),
         new Chain("7", true, Policy.DENY, Collections.singletonList("^(/heywhats(up)?(?:$|\\W).*)"), true, EvalCause.setValues()),
         new Chain("8", false, Policy.DENY, Collections.singletonList("/thisshouldnotbedenied"), false, EvalCause.setValues()),
-        new Chain("9", true, Policy.DENY, Collections.singletonList("/blocksuggestionsonly"), false, EnumSet.of(EvalCause.CMD_SUGGESTION))
+        new Chain("9", true, Policy.DENY, Collections.singletonList("/blocksuggestionsonly"), false, EnumSet.of(EvalCause.CMD_SUGGESTION)),
+        new Chain("10", true, Policy.DENY, Collections.singletonList("/UPPERCASE"), false, EvalCause.setValues())
     );
 
     // Commands to be tested which are expected to be evaluated with a DENY policy.
@@ -60,7 +61,8 @@ public final class TestCmdEvaluation {
         "/plugins", "/pl", "/version", "/ver", "/icanhasbukkit",
         "/about", "/?", "/help", "/ehelp", "/paper", "/spigot",
         "/es give", "/es enchant", "/cd", "/", "/:", "/hello:how",
-        "/the:quick brown fox", "/bukkit:help",
+        "/the:quick brown fox", "/bukkit:help", "/uppercase",
+        "/UPPERCASE",
         // regex:
         "/heywhats",
         "/heywhats coolio",
@@ -233,7 +235,7 @@ public final class TestCmdEvaluation {
         for (final String cmd : TEST_CMDS_EXPECTING_DENY) {
             final Evaluation eval = testEvaluation(cmd, true);
             Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
-            Assertions.assertEquals(eval.policy(), Policy.DENY, "Wrong policy evaluated for cmd='" +
+            Assertions.assertEquals(Policy.DENY, eval.policy(), "Wrong policy evaluated for cmd='" +
                 cmd + "'; description='" + eval.description() + "'");
         }
     }
@@ -249,7 +251,7 @@ public final class TestCmdEvaluation {
         for (final String cmd : TEST_CMDS_EXPECTING_ALLOW) {
             final Evaluation eval = testEvaluation(cmd, true);
             Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
-            Assertions.assertEquals(eval.policy(), Policy.ALLOW, "Wrong policy evaluated for cmd='" +
+            Assertions.assertEquals(Policy.ALLOW, eval.policy(), "Wrong policy evaluated for cmd='" +
                 cmd + "'; description='" + eval.description() + "'");
         }
     }
@@ -269,7 +271,7 @@ public final class TestCmdEvaluation {
 
                 Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
                 Assertions.assertTrue(eval.dueToColonInFirstArg(), "Colon in first arg expected to be cause");
-                Assertions.assertEquals(eval.policy(), Policy.DENY,
+                Assertions.assertEquals(Policy.DENY, eval.policy(),
                     "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
                         eval.description() + "'");
             }
@@ -279,7 +281,7 @@ public final class TestCmdEvaluation {
 
                 Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
                 Assertions.assertFalse(eval.dueToColonInFirstArg(), "Colon in first arg unexpected to be cause");
-                Assertions.assertEquals(eval.policy(), Policy.ALLOW,
+                Assertions.assertEquals(Policy.ALLOW, eval.policy(),
                     "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
                         eval.description() + "'");
             }
@@ -291,7 +293,7 @@ public final class TestCmdEvaluation {
 
                 Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
                 Assertions.assertFalse(eval.dueToColonInFirstArg(), "Colon in first arg unexpected to be cause");
-                Assertions.assertEquals(eval.policy(), Policy.ALLOW,
+                Assertions.assertEquals(Policy.ALLOW, eval.policy(),
                     "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
                         eval.description() + "'");
             }
@@ -300,7 +302,7 @@ public final class TestCmdEvaluation {
                 final Evaluation eval = testEvaluation(cmd, false);
                 Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
                 Assertions.assertFalse(eval.dueToColonInFirstArg(), "Colon in first arg unexpected to be cause");
-                Assertions.assertEquals(eval.policy(), Policy.ALLOW,
+                Assertions.assertEquals(Policy.ALLOW, eval.policy(),
                     "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
                         eval.description() + "'");
             }
@@ -351,7 +353,7 @@ public final class TestCmdEvaluation {
         );
 
         Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
-        Assertions.assertEquals(eval.policy(), Policy.DENY, "Wrong policy evaluated");
+        Assertions.assertEquals(Policy.DENY, eval.policy(), "Wrong policy evaluated");
     }
 
     /**
@@ -372,7 +374,7 @@ public final class TestCmdEvaluation {
         final Evaluation eval = testEvaluation("DoesNotHaveStartingSlash", true);
 
         Assertions.assertTrue(eval.dueToException(), "Intentional exception was expected here");
-        Assertions.assertEquals(eval.policy(), Policy.DENY, "Wrong security policy evaluated");
+        Assertions.assertEquals(Policy.DENY, eval.policy(), "Wrong security policy evaluated");
 
         Evaluator.SUPPRESS_EXCEPTION_MESSAGES.set(false);
     }
@@ -403,12 +405,12 @@ public final class TestCmdEvaluation {
         final Evaluation evalOther = eval.apply(EvalCause.OTHER);
 
         Assertions.assertTrue(evalExecution.dueToDefaultPolicy());
-        Assertions.assertSame(evalExecution.policy(), Policy.ALLOW);
+        Assertions.assertSame(Policy.ALLOW, evalExecution.policy());
 
         Assertions.assertFalse(evalSuggestion.dueToDefaultPolicy()); // << notice
-        Assertions.assertSame(evalSuggestion.policy(), Policy.DENY); // << notice
+        Assertions.assertSame(Policy.DENY, evalSuggestion.policy()); // << notice
 
         Assertions.assertTrue(evalOther.dueToDefaultPolicy());
-        Assertions.assertSame(evalOther.policy(), Policy.ALLOW);
+        Assertions.assertSame(Policy.ALLOW, evalOther.policy());
     }
 }
