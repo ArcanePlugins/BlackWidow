@@ -20,6 +20,9 @@ package io.github.arcaneplugins.blackwidow.plugin.bukkit.util;
 
 public enum DebugCategory {
 
+    // Standard BlackWidow command blocking engine
+    CMD_DETECTION_ENGINE,
+
     ASYNC_PLAYER_COMMAND_SEND_LISTENER
 
 }

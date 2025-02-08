@@ -25,6 +25,7 @@ import io.github.arcaneplugins.blackwidow.lib.cmdblocking.Policy;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.logic.Action;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.logic.Context;
+import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.DebugCategory;
 import org.bukkit.entity.Player;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 
@@ -97,14 +98,22 @@ public final class CmdBlocker {
         final Player player = context.player(false);
         if (player != null && player.isOp() && operatorsBypassCompletely()) {
             return new Evaluation(cmd, Policy.ALLOW, null, null, "Operators configured to bypass command blocking")
-                .withDueToOperatorsBypassCmdBlocking(true);
+                    .withDueToOperatorsBypassCmdBlocking(true);
         }
 
         // copy chains into a new LinkedHashSet, remove chains not applicable to context.
         final Collection<BukkitChain> applicableChains = new LinkedHashSet<>(chains());
         applicableChains.removeIf(chain -> chain.requirements().stream().anyMatch(req -> !req.validate(context)));
 
-        final Evaluation eval = Evaluator.evaluate(cmd, applicableChains, defaultBehaviourPolicy(), denyColonInFirstArgEnabled(), cause, (debugMsg) -> { /* do nothing */ }, (warnMsg) -> plugin().getLogger().warning(warnMsg.get()));
+        final Evaluation eval = Evaluator.evaluate(
+                cmd,
+                applicableChains,
+                defaultBehaviourPolicy(),
+                denyColonInFirstArgEnabled(),
+                cause,
+                debugMsg -> plugin().debugLog(DebugCategory.CMD_DETECTION_ENGINE, debugMsg),
+                warnMsg -> plugin().getLogger().warning(warnMsg.get())
+        );
 
         if (runActions && eval.dueToColonInFirstArg()) {
             denyColonInFirstArgActions().forEach(act -> act.run(context));
