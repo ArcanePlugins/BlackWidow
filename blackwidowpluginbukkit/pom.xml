@@ -65,7 +65,7 @@
         <dependency>
             <groupId>dev.jorel</groupId>
             <artifactId>commandapi-bukkit-shade</artifactId>
-            <version>9.7.0</version>
+            <version>10.0.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
