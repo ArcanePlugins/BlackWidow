@@ -21,17 +21,39 @@ package io.github.arcaneplugins.blackwidow.lib.cmdblocking;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+
 public final class TestCmdEvaluation {
+
+    public TestCmdEvaluation() {
+        TEST_CHAINS.addAll(
+                asList(
+                        new Chain("0", true, Policy.DENY, asList("/cd reload *", "/"), false, EvalCause.setValues()),
+                        new Chain("1", true, Policy.ALLOW, singletonList("/cd reload"), false, EvalCause.setValues()),
+                        new Chain("2", true, Policy.DENY, singletonList("/cd"), false, EvalCause.setValues()),
+                        new Chain("3", true, Policy.DENY, asList(TEST_PLUGIN_CMDS), false, EvalCause.setValues()),
+                        new Chain("4", true, Policy.ALLOW, singletonList("/es version"), false, EvalCause.setValues()),
+                        new Chain("5", true, Policy.DENY, asList("/es give", "/es enchant"), false, EvalCause.setValues()),
+                        new Chain("6", true, Policy.ALLOW, singletonList("^(/heywhats(up)?(?:$|\\W)cool(beans)?(?:$|\\W).*)"), true, EvalCause.setValues()),
+                        new Chain("7", true, Policy.DENY, singletonList("^(/heywhats(up)?(?:$|\\W).*)"), true, EvalCause.setValues()),
+                        new Chain("8", false, Policy.DENY, singletonList("/thisshouldnotbedenied"), false, EvalCause.setValues()),
+                        new Chain("9", true, Policy.DENY, singletonList("/blocksuggestionsonly"), false, EnumSet.of(EvalCause.CMD_SUGGESTION)),
+                        new Chain("10", true, Policy.DENY, singletonList("/UPPERCASE"), false, EvalCause.setValues()),
+                        new Chain("11", true, Policy.DENY, singletonList("/suggestion argument"), false, Collections.singleton(EvalCause.CMD_SUGGESTION))
+                )
+        );
+    }
 
     // Various 'plugin checking' commands
     private static final String[] TEST_PLUGIN_CMDS = {
@@ -41,18 +63,7 @@ public final class TestCmdEvaluation {
 
     // Various programatically defined chains of rules, some regex ones provided at the bottom.
     // Chains should NOT contain 'donotuseinchains', doing so will make some tests fail (by design).
-    private static final Collection<Chain> TEST_CHAINS = Arrays.asList(
-        new Chain("0", true, Policy.DENY, Arrays.asList("/cd reload *", "/"), false, EvalCause.setValues()),
-        new Chain("1", true, Policy.ALLOW, Collections.singletonList("/cd reload"), false, EvalCause.setValues()),
-        new Chain("2", true, Policy.DENY, Collections.singletonList("/cd"), false, EvalCause.setValues()),
-        new Chain("3", true, Policy.DENY, Arrays.asList(TEST_PLUGIN_CMDS), false, EvalCause.setValues()),
-        new Chain("4", true, Policy.ALLOW, Collections.singletonList("/es version"), false, EvalCause.setValues()),
-        new Chain("5", true, Policy.DENY, Arrays.asList("/es give", "/es enchant"), false, EvalCause.setValues()),
-        new Chain("6", true, Policy.ALLOW, Collections.singletonList("^(/heywhats(up)?(?:$|\\W)cool(beans)?(?:$|\\W).*)"), true, EvalCause.setValues()),
-        new Chain("7", true, Policy.DENY, Collections.singletonList("^(/heywhats(up)?(?:$|\\W).*)"), true, EvalCause.setValues()),
-        new Chain("8", false, Policy.DENY, Collections.singletonList("/thisshouldnotbedenied"), false, EvalCause.setValues()),
-        new Chain("9", true, Policy.DENY, Collections.singletonList("/blocksuggestionsonly"), false, EnumSet.of(EvalCause.CMD_SUGGESTION))
-    );
+    private static final Collection<Chain> TEST_CHAINS = new LinkedList<>();
 
     // Commands to be tested which are expected to be evaluated with a DENY policy.
     public static final String[] TEST_CMDS_EXPECTING_DENY = {
@@ -60,7 +71,8 @@ public final class TestCmdEvaluation {
         "/plugins", "/pl", "/version", "/ver", "/icanhasbukkit",
         "/about", "/?", "/help", "/ehelp", "/paper", "/spigot",
         "/es give", "/es enchant", "/cd", "/", "/:", "/hello:how",
-        "/the:quick brown fox", "/bukkit:help",
+        "/the:quick brown fox", "/bukkit:help", "/uppercase",
+        "/UPPERCASE",
         // regex:
         "/heywhats",
         "/heywhats coolio",
@@ -162,11 +174,11 @@ public final class TestCmdEvaluation {
         final BiFunction<String, Policy, Boolean> test = (cmd, policy) -> {
             final Evaluation eval = Evaluator.evaluate(
                     "/hello",
-                    Collections.singletonList(new Chain(
+                    singletonList(new Chain(
                             "wildcard-base-cmd",
                             true,
                             Policy.DENY,
-                            Collections.singletonList("/*"),
+                            singletonList("/*"),
                             false,
                             EvalCause.setValues()
                     )),
@@ -195,11 +207,11 @@ public final class TestCmdEvaluation {
         final BiFunction<String, Policy, Boolean> test = (cmd, policy) -> {
             final Evaluation eval = Evaluator.evaluate(
                     cmd,
-                    Collections.singletonList(new Chain(
+                    singletonList(new Chain(
                             "wildcard-arg-cmd",
                             true,
                             policy,
-                            Collections.singletonList("/hello * world *"),
+                            singletonList("/hello * world *"),
                             false,
                             EvalCause.setValues()
                     )),
@@ -233,7 +245,7 @@ public final class TestCmdEvaluation {
         for (final String cmd : TEST_CMDS_EXPECTING_DENY) {
             final Evaluation eval = testEvaluation(cmd, true);
             Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
-            Assertions.assertEquals(eval.policy(), Policy.DENY, "Wrong policy evaluated for cmd='" +
+            Assertions.assertEquals(Policy.DENY, eval.policy(), "Wrong policy evaluated for cmd='" +
                 cmd + "'; description='" + eval.description() + "'");
         }
     }
@@ -249,7 +261,7 @@ public final class TestCmdEvaluation {
         for (final String cmd : TEST_CMDS_EXPECTING_ALLOW) {
             final Evaluation eval = testEvaluation(cmd, true);
             Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
-            Assertions.assertEquals(eval.policy(), Policy.ALLOW, "Wrong policy evaluated for cmd='" +
+            Assertions.assertEquals(Policy.ALLOW, eval.policy(), "Wrong policy evaluated for cmd='" +
                 cmd + "'; description='" + eval.description() + "'");
         }
     }
@@ -269,7 +281,7 @@ public final class TestCmdEvaluation {
 
                 Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
                 Assertions.assertTrue(eval.dueToColonInFirstArg(), "Colon in first arg expected to be cause");
-                Assertions.assertEquals(eval.policy(), Policy.DENY,
+                Assertions.assertEquals(Policy.DENY, eval.policy(),
                     "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
                         eval.description() + "'");
             }
@@ -279,7 +291,7 @@ public final class TestCmdEvaluation {
 
                 Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
                 Assertions.assertFalse(eval.dueToColonInFirstArg(), "Colon in first arg unexpected to be cause");
-                Assertions.assertEquals(eval.policy(), Policy.ALLOW,
+                Assertions.assertEquals(Policy.ALLOW, eval.policy(),
                     "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
                         eval.description() + "'");
             }
@@ -291,7 +303,7 @@ public final class TestCmdEvaluation {
 
                 Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
                 Assertions.assertFalse(eval.dueToColonInFirstArg(), "Colon in first arg unexpected to be cause");
-                Assertions.assertEquals(eval.policy(), Policy.ALLOW,
+                Assertions.assertEquals(Policy.ALLOW, eval.policy(),
                     "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
                         eval.description() + "'");
             }
@@ -300,7 +312,7 @@ public final class TestCmdEvaluation {
                 final Evaluation eval = testEvaluation(cmd, false);
                 Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
                 Assertions.assertFalse(eval.dueToColonInFirstArg(), "Colon in first arg unexpected to be cause");
-                Assertions.assertEquals(eval.policy(), Policy.ALLOW,
+                Assertions.assertEquals(Policy.ALLOW, eval.policy(),
                     "Wrong policy evaluated for cmd='" + cmd + "'; description='" +
                         eval.description() + "'");
             }
@@ -351,7 +363,7 @@ public final class TestCmdEvaluation {
         );
 
         Assertions.assertFalse(eval.dueToException(), "Exception not expected here");
-        Assertions.assertEquals(eval.policy(), Policy.DENY, "Wrong policy evaluated");
+        Assertions.assertEquals(Policy.DENY, eval.policy(), "Wrong policy evaluated");
     }
 
     /**
@@ -372,7 +384,7 @@ public final class TestCmdEvaluation {
         final Evaluation eval = testEvaluation("DoesNotHaveStartingSlash", true);
 
         Assertions.assertTrue(eval.dueToException(), "Intentional exception was expected here");
-        Assertions.assertEquals(eval.policy(), Policy.DENY, "Wrong security policy evaluated");
+        Assertions.assertEquals(Policy.DENY, eval.policy(), "Wrong security policy evaluated");
 
         Evaluator.SUPPRESS_EXCEPTION_MESSAGES.set(false);
     }
@@ -403,12 +415,51 @@ public final class TestCmdEvaluation {
         final Evaluation evalOther = eval.apply(EvalCause.OTHER);
 
         Assertions.assertTrue(evalExecution.dueToDefaultPolicy());
-        Assertions.assertSame(evalExecution.policy(), Policy.ALLOW);
+        Assertions.assertSame(Policy.ALLOW, evalExecution.policy());
 
         Assertions.assertFalse(evalSuggestion.dueToDefaultPolicy()); // << notice
-        Assertions.assertSame(evalSuggestion.policy(), Policy.DENY); // << notice
+        Assertions.assertSame(Policy.DENY, evalSuggestion.policy()); // << notice
 
         Assertions.assertTrue(evalOther.dueToDefaultPolicy());
-        Assertions.assertSame(evalOther.policy(), Policy.ALLOW);
+        Assertions.assertSame(Policy.ALLOW, evalOther.policy());
+    }
+
+    /**
+     * Tests that command suggestion filtering is working with arguments too.
+     *
+     * @author lokka30
+     * @since 1.1.6
+     */
+    @Test
+    public void testSuggestionFilteringArgumentsWorks() {
+        final Collection<String> cmdsShouldAllow = asList(
+                "/suggestion argumento",
+                "/suggestion argumen argument",
+                "/suggestion"
+        );
+        final Collection<String> cmdsShouldDeny = asList(
+                "/suggestion argument",
+                "/suggestion argument test"
+        );
+
+        cmdsShouldAllow.forEach(cmd -> Assertions.assertSame(Policy.ALLOW, Evaluator.evaluate(
+                cmd,
+                TEST_CHAINS,
+                TEST_DEFAULT_POLICY,
+                true,
+                EvalCause.CMD_SUGGESTION,
+                debugLogger,
+                warningLogger
+        ).policy()));
+
+        cmdsShouldDeny.forEach(cmd -> Assertions.assertSame(Policy.DENY, Evaluator.evaluate(
+                cmd,
+                TEST_CHAINS,
+                TEST_DEFAULT_POLICY,
+                true,
+                EvalCause.CMD_SUGGESTION,
+                debugLogger,
+                warningLogger
+        ).policy()));
     }
 }
