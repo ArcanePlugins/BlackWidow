@@ -25,6 +25,7 @@ import io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.logic.Context;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandSendEvent;
 
@@ -38,7 +39,7 @@ public final class PlayerCommandSendListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void handle(final PlayerCommandSendEvent event) {
         if (event.getCommands().isEmpty()) {
             // no commands to process - nothing to do here

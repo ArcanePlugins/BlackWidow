@@ -40,13 +40,8 @@ public final class PlayerCommandPreprocessListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void handle(final PlayerCommandPreprocessEvent event) {
-        if (event.isCancelled()) {
-            // Event is already cancelled - nothing to do!
-            return;
-        }
-
         final Player player = event.getPlayer();
         final String msg = event.getMessage();
         final String msgWithSlash = msg.startsWith("/") ? msg : '/' + msg;

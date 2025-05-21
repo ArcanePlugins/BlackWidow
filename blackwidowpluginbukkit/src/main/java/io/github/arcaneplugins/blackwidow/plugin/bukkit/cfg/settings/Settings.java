@@ -24,6 +24,7 @@ import io.github.arcaneplugins.blackwidow.plugin.bukkit.util.DebugCategory;
 import org.spongepowered.configurate.ConfigurateException;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Objects;
 
 public final class Settings extends YamlCfg {
@@ -58,11 +59,9 @@ public final class Settings extends YamlCfg {
             plugin().enabledDebugCategories().clear();
             plugin().enabledDebugCategories().addAll(
                 Objects.requireNonNullElse(
-                    root()
-                        .node("debug-categories")
-                        .getList(DebugCategory.class),
-                    Collections.emptySet()
-                )
+                    root().node("debug-categories").getList(String.class),
+                    new LinkedList<String>()
+                ).stream().map(DebugCategory::valueOf).toList()
             );
         } catch (final ConfigurateException ex) {
             throw new RuntimeException(ex.getMessage(), ex);
