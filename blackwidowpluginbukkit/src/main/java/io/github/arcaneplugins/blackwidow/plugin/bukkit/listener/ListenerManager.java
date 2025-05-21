@@ -21,7 +21,9 @@ package io.github.arcaneplugins.blackwidow.plugin.bukkit.listener;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.BlackWidow;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.listener.bukkit.PlayerCommandPreprocessListener;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.listener.bukkit.PlayerCommandSendListener;
+import io.github.arcaneplugins.blackwidow.plugin.bukkit.listener.bukkit.TabCompleteListener;
 import io.github.arcaneplugins.blackwidow.plugin.bukkit.listener.paper.AsyncPlayerCommandSendListener;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
 import java.util.Collection;
@@ -39,9 +41,8 @@ public final class ListenerManager {
     }
 
     private void constructListeners() {
-        listeners().add(
-            new PlayerCommandPreprocessListener(plugin())
-        );
+        listeners().add(new PlayerCommandPreprocessListener(plugin()));
+        listeners().add(new TabCompleteListener(plugin()));
 
         listeners().add(
             plugin().usingPaper() && plugin().usePaperFeatures() ?
@@ -54,10 +55,7 @@ public final class ListenerManager {
         plugin().getLogger().info("Loading listeners.");
         listeners().clear();
         constructListeners();
-
-        for (final Listener listener : listeners()) {
-            plugin().getServer().getPluginManager().registerEvents(listener, plugin());
-        }
+        listeners().forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, plugin()));
     }
 
     public Collection<Listener> listeners() {
