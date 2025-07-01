@@ -12,3 +12,6 @@ out/
 # macOS
 ._.git
 .DS_Store
+
+# VS Code
+.vscode/
