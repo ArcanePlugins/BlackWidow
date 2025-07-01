@@ -40,7 +40,7 @@ public final class CommandManager {
             new CommandAPIBukkitConfig(plugin())
                 .verboseOutput(false)
                 .silentLogs(true)
-                .usePluginNamespace()
+                .beLenientForMinorVersions(true)
         );
         registerCommands();
     }
